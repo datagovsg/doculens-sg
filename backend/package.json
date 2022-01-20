@@ -24,7 +24,7 @@
   "dependencies": {
     "@nestjs/common": "^8.1.2",
     "@nestjs/core": "^8.1.2",
-    "@nestjs/platform-express": "^8.1.2",
+    "@nestjs/platform-express": "^8.2.5",
     "@nestjs/sequelize": "^8.0.0",
     "@nestjs/terminus": "^8.0.1",
     "aws-sdk": "^2.1015.0",
