@@ -7,11 +7,14 @@
     "@chakra-ui/react": "^1.7.4",
     "@emotion/react": "^11.5.0",
     "@emotion/styled": "^11.3.0",
-    "@opengovsg/design-system-react": "0.0.4",
+    "@opengovsg/design-system-react": "0.0.5",
     "framer-motion": "^4.1.17",
+    "libphonenumber-js": "^1.9.44",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-hook-form": "^7.24.2",
+    "react-icons": "^4.3.1",
+    "react-markdown": "^8.0.0",
     "react-router-dom": "^6.2.1"
   },
   "devDependencies": {
