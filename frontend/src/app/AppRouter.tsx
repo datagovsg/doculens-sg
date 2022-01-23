@@ -1,4 +1,4 @@
-import { lazy, Suspense } from 'react'
+import React, { lazy, Suspense } from 'react'
 import { Route, Routes } from 'react-router-dom'
 
 import {
@@ -6,13 +6,16 @@ import {
   DASHBOARD_ROUTE,
   LOGIN_ROUTE,
   PUBLIC_ROUTE,
+  RESPONSES_ROUTE,
   VIEWER_ROUTE,
 } from '~constants/routes'
+
+import ResponsesPage from '~pages/responses/ResponsesPage'
 
 import { PrivateRoute } from './PrivateRoute'
 import { PublicRoute } from './PublicRoute'
 
-const DashboardPage = lazy(() => import('~pages/dashboard/DashboardPage'))
+const DashboardRouter = lazy(() => import('~pages/dashboard/DashboardRouter'))
 const PublicPage = lazy(() => import('~pages/public/PublicPage'))
 const ViewerPage = lazy(() => import('~pages/viewer/ViewerPage'))
 const BuilderPage = lazy(() => import('~pages/builder/BuilderPage'))
@@ -39,7 +42,7 @@ export const AppRouter = (): JSX.Element => {
 
         <Route
           path={DASHBOARD_ROUTE}
-          element={<PrivateRoute element={<DashboardPage />} />}
+          element={<PrivateRoute element={<DashboardRouter />} />}
         />
 
         <Route
@@ -50,6 +53,11 @@ export const AppRouter = (): JSX.Element => {
         <Route
           path={BUILDER_ROUTE}
           element={<PrivateRoute element={<BuilderPage />} />}
+        />
+
+        <Route
+          path={`${RESPONSES_ROUTE}/:id/:action`}
+          element={<PrivateRoute element={<ResponsesPage />} />}
         />
 
         <Route
