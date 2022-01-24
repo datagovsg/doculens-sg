@@ -1,16 +1,20 @@
+import '@opengovsg/design-system-react/build/fonts/inter.css'
+
 import { BrowserRouter } from 'react-router-dom'
-import { ChakraProvider } from '@chakra-ui/react'
+import { ThemeProvider } from '@opengovsg/design-system-react'
+
+import { theme } from '~/theme'
 
 import { AuthProvider } from '~features/auth'
 
 import { AppRouter } from './AppRouter'
 
 export const App = (): JSX.Element => (
-  <ChakraProvider resetCSS>
+  <ThemeProvider theme={theme}>
     <BrowserRouter>
       <AuthProvider>
         <AppRouter />
       </AuthProvider>
     </BrowserRouter>
-  </ChakraProvider>
+  </ThemeProvider>
 )
