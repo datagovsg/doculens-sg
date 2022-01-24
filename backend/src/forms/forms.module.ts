@@ -10,5 +10,6 @@ import { Form, FormSchema } from './schemas/form.schema'
   imports: [
     MongooseModule.forFeature([{ name: Form.name, schema: FormSchema }]),
   ],
+  exports: [FormsService],
 })
 export class FormsModule {}

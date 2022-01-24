@@ -30,6 +30,7 @@
     "@nestjs/sequelize": "^8.0.0",
     "@nestjs/terminus": "^8.0.1",
     "aws-sdk": "^2.1015.0",
+    "class-transformer": "^0.5.1",
     "convict": "^6.2.1",
     "express-session": "^1.17.2",
     "helmet": "^4.6.0",
