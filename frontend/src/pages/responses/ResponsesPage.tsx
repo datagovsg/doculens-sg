@@ -27,7 +27,6 @@ const ResponsesPage = ({}: ResponsesPageProps) => {
 
   return (
     <>
-      {/* Implements react-router v5 style for familiarity reasons*/}
       <NestedNavbar />
       <Container maxW="960px" px={0} pt={'100px'}>
         {selectedTab()}
