@@ -14,11 +14,14 @@ import { NavbarBack } from '~components/Navbar/NavbarBack'
 import { NavbarContainer } from '~components/Navbar/NavbarContainer'
 import { NavbarTabs } from '~components/Navbar/NavbarTabs'
 
-const ROUTES = ['responses', 'loader', 'builder']
+import { DashboardSection } from '~pages/responses/types'
+
+// Transforms all the dashboard sections into an array
+const ROUTES = Object.values(DashboardSection)
 
 const NestedNavbar: FC = () => {
   const navigate = useNavigate()
-  const params = useParams<{ id: string; action: string }>()
+  const params = useParams<{ id: string; action: DashboardSection }>()
   const navStyles = useMultiStyleConfig('NavbarComponents', {})
 
   if (!params || !params.id || !params.action) {
