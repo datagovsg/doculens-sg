@@ -6,7 +6,7 @@
   "dependencies": {
     "@chakra-ui/react": "^1.7.4",
     "@emotion/react": "^11.5.0",
-    "@emotion/styled": "^11.3.0",
+    "@emotion/styled": "^11.6.0",
     "@opengovsg/design-system-react": "0.0.5",
     "framer-motion": "^4.1.17",
     "libphonenumber-js": "^1.9.44",
