@@ -1,4 +1,4 @@
-import { Document } from 'mongoose'
+import { Document, ObjectId } from 'mongoose'
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
 
 export type FormDocument = Form & Document
@@ -15,8 +15,7 @@ export type FormDocument = Form & Document
   },
 })
 export class Form {
-  @Prop()
-  id: string
+  _id: ObjectId
 
   @Prop()
   title: string

@@ -11,6 +11,7 @@ import { FormsModule } from './forms/forms.module'
 import { MongooseModule } from '@nestjs/mongoose'
 import { SequelizeModule } from '@nestjs/sequelize'
 import { ConfigService } from './config/config.service'
+import { ApplicationsModule } from './applications/applications.module'
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { ConfigService } from './config/config.service'
     TerminusModule,
     HealthModule,
     FormsModule,
+    ApplicationsModule,
   ],
 })
 export class AppModule implements NestModule {
