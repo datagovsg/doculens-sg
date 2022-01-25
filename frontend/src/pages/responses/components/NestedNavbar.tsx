@@ -39,7 +39,7 @@ const NestedNavbar: FC = () => {
   const handleTabChange = (index: number) => {
     const id = params.id
     if (id) {
-      navigate({ pathname: `/form/${id}/${ROUTES[index]}` })
+      navigate({ pathname: `/dashboard/${id}/${ROUTES[index]}` })
     }
   }
 

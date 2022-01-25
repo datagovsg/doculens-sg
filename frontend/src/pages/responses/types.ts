@@ -1,5 +1,5 @@
 export enum DashboardSection {
-  BUILDER = 'builder',
-  LOADER = 'loader',
   RESPONSES = 'responses',
+  LOADER = 'loader',
+  BUILDER = 'builder',
 }

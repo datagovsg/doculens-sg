@@ -41,11 +41,6 @@ export const AppRouter = (): JSX.Element => {
         />
 
         <Route
-          path={DASHBOARD_ROUTE}
-          element={<PrivateRoute element={<DashboardRouter />} />}
-        />
-
-        <Route
           path={VIEWER_ROUTE}
           element={<PrivateRoute element={<ViewerPage />} />}
         />
@@ -56,8 +51,13 @@ export const AppRouter = (): JSX.Element => {
         />
 
         <Route
-          path={`${RESPONSES_ROUTE}/:id/:action`}
+          path={`${DASHBOARD_ROUTE}/:id/:action`}
           element={<PrivateRoute element={<ResponsesPage />} />}
+        />
+
+        <Route
+          path={`${DASHBOARD_ROUTE}/*`}
+          element={<PrivateRoute element={<DashboardRouter />} />}
         />
 
         <Route
