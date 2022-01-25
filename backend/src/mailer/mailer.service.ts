@@ -26,7 +26,9 @@ export class MailerService {
         },
       }
 
-  sendMail = async (mailOptions: SendMailOptions): Promise<void> => {
+  sendMail = async (
+    mailOptions: Omit<SendMailOptions, 'from'>
+  ): Promise<void> => {
     return this.mailer.sendMail({
       ...mailOptions,
       from: this.config.get('mailConfig.temporarySender'),

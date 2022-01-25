@@ -1,15 +1,53 @@
-import { Controller, Get, Post, Body, Param, Query } from '@nestjs/common'
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Query,
+  NotFoundException,
+} from '@nestjs/common'
 import { ApplicationsService } from './applications.service'
 import { CreateApplicationDto } from './dto/create-application.dto'
 import { FormsService } from '../forms/forms.service'
 import { Application } from './schemas/application.schema'
+import { MailerService } from '../mailer/mailer.service'
+import { SendEmailToApplicantDto } from './dto/send-email-application.dto'
+import { SendEmailResponse } from './types'
 
 @Controller('applications')
 export class ApplicationsController {
   constructor(
     private readonly applicationsService: ApplicationsService,
-    private readonly formsService: FormsService
+    private readonly formsService: FormsService,
+    private readonly mailService: MailerService
   ) {}
+
+  @Post(':id/sendMail')
+  async sendEmailToApplicant(
+    @Body() sendEmailToApplicantDto: SendEmailToApplicantDto,
+    @Param('id') id: string
+  ): Promise<SendEmailResponse> {
+    const applicantEmail = (
+      await this.applicationsService.findApplicationById(id)
+    ).email
+
+    if (!applicantEmail) {
+      throw new NotFoundException('applicant email not found')
+    }
+
+    // TODO: Consider fire and forget
+    await this.mailService.sendMail({
+      subject: sendEmailToApplicantDto.subject,
+      text: sendEmailToApplicantDto.content,
+      to: applicantEmail,
+    })
+
+    return {
+      status: 'success',
+      email: applicantEmail,
+    }
+  }
 
   // TODO: Resolve this anti pattern. Ideally formId shouldn't be a param
   @Post(':formId')
