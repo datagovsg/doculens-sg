@@ -1,5 +1,5 @@
 import React from 'react'
-import { Route, Routes, useNavigate, useParams } from 'react-router-dom'
+import { Route, Routes, useNavigate } from 'react-router-dom'
 
 import CreateNewModal from '~pages/dashboard/components/CreationModal/CreateNewModal'
 import { DashboardPage } from '~pages/dashboard/DashboardPage'

@@ -19,9 +19,9 @@ const ResponsesPage = ({}: ResponsesPageProps) => {
       case 'loader':
         return <LoaderSection />
       case 'responses':
-        return <ResponseTable />
+        return <ResponseTable formId={params.id as string} />
       default:
-        return <ResponseTable />
+        return <div>Fallback screen. To be implemented</div>
     }
   }
 

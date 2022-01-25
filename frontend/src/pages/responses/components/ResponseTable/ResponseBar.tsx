@@ -2,10 +2,16 @@ import { FC } from 'react'
 import { Skeleton, Stack, Text } from '@chakra-ui/react'
 import { Menu, Searchbar } from '@opengovsg/design-system-react'
 
-export const ResponseBar: FC = () => {
+interface ResponseBarProps {
+  responseCount: number
+  isLoading: boolean
+}
+
+export const ResponseBar: FC<ResponseBarProps> = ({
+  responseCount,
+  isLoading,
+}) => {
   // TODO: Move to component props
-  const isLoading = true
-  const totalResponses = 100
 
   const handleSearch = () => console.log('Search triggered')
   return (
@@ -17,8 +23,8 @@ export const ResponseBar: FC = () => {
         spacing="1rem"
       >
         <Text as="h3" textStyle="h3" display="flex" color="secondary.500">
-          <Skeleton isLoaded={!isLoading}>{totalResponses} </Skeleton> responses
-          to date
+          <Skeleton isLoaded={!isLoading}>{responseCount}&nbsp; </Skeleton>{' '}
+          responses to date
         </Text>
         <Searchbar onSearch={handleSearch} isExpanded={true} />
 

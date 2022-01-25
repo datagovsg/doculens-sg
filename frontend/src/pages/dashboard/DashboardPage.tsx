@@ -15,7 +15,7 @@ import CreateNewCard from '~pages/dashboard/components/CreateNewCard'
 export const DashboardPage: FC = () => {
   // TODO: Add actual forms to the layout
   const [forms, isLoading] = useFetch<Form>({
-    serviceFunction: retrieveAllForms,
+    serviceFunction: retrieveAllForms(),
   })
 
   return (
