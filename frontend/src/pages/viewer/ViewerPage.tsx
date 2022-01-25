@@ -26,23 +26,31 @@ interface attachmentProps {
   attachmentID: string
 }
 const AttachmentProps: Array<attachmentProps> = [
-  { name: 'File 1', icon: BsFillFileEarmarkArrowDownFill, attachmentID: '123' },
+  {
+    name: 'File 1',
+    icon: BsFillFileEarmarkArrowDownFill,
+    attachmentID: '286a163021bade5eb765fc119d28c3de',
+  },
   {
     name: 'File 2',
     icon: BsFillFileEarmarkArrowDownFill,
-    attachmentID: '456',
+    attachmentID: 'sample2.pdf',
   },
   {
     name: 'File 3',
     icon: BsFillFileEarmarkArrowDownFill,
-    attachmentID: '789',
+    attachmentID: '286a163021bade5eb765fc119d28c3de',
   },
   {
     name: 'File 4',
     icon: BsFillFileEarmarkArrowDownFill,
-    attachmentID: '12345',
+    attachmentID: '286a163021bade5eb765fc119d28c3de',
   },
-  { name: 'File 5', icon: BsFillFileEarmarkArrowDownFill, attachmentID: '#' },
+  {
+    name: 'File 5',
+    icon: BsFillFileEarmarkArrowDownFill,
+    attachmentID: '286a163021bade5eb765fc119d28c3de',
+  },
 ]
 
 export default function SimpleSidebar() {
@@ -74,7 +82,7 @@ export default function SimpleSidebar() {
       {/* mobilenav */}
       <MobileNav display={{ base: 'flex', md: 'none' }} onOpen={onOpen} />
       <Box ml={{ base: 0, md: 60 }} p="4">
-        <AdminPDFconsole pdfIdentifier="http://www.africau.edu/images/default/sample.pdf" />
+        <AdminPDFconsole pdfIdentifier={selectedAttachment} />
       </Box>
     </Box>
   )

@@ -8,6 +8,7 @@ import { OtpModule } from 'otp/otp.module'
 import { MailerModule } from 'mailer/mailer.module'
 import { TerminusModule } from '@nestjs/terminus'
 import { HealthModule } from './health/health.module'
+import { AttachmentModule } from './S3/s3.module'
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { HealthModule } from './health/health.module'
     AuthModule,
     TerminusModule,
     HealthModule,
+    AttachmentModule,
   ],
 })
 export class AppModule implements NestModule {
