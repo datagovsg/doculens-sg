@@ -6,6 +6,14 @@ export interface ConfigSchema {
   awsRegion: string
   mongoUrl: string
   session: { name: string; secret: string; cookie: { maxAge: number } }
+  s3: {
+    s3_bucket_name: string
+    s3_bucket_region: string
+  }
+  awsKeys: {
+    aws_access_key: string
+    aws_secret_key: string
+  }
   otp: {
     expiry: number
     secret: string
@@ -33,6 +41,34 @@ export const schema: Schema<ConfigSchema> = {
     env: 'AWS_REGION',
     format: '*',
     default: '',
+  },
+  awsKeys: {
+    aws_access_key: {
+      doc: 'Bucket name for AWS',
+      env: 'AWS_ACCESS_KEY',
+      format: String,
+      default: '',
+    },
+    aws_secret_key: {
+      doc: 'secret key for AWS',
+      env: 'AWS_SECRET_KEY',
+      format: String,
+      default: '',
+    },
+  },
+  s3: {
+    s3_bucket_name: {
+      doc: 'Bucket name for S3',
+      env: 'S3_BUCKET_NAME',
+      format: String,
+      default: '',
+    },
+    s3_bucket_region: {
+      doc: 'Bucket name for S3',
+      env: 'S3_BUCKET_REGION',
+      format: String,
+      default: '',
+    },
   },
   mongoUrl: {
     doc: 'The connection string for mongoDB instance',

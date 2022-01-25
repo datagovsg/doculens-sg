@@ -1,7 +1,10 @@
-import React, { ReactNode, ReactText, useState } from 'react'
-import { IconType } from 'react-icons'
-import { BsFillFileEarmarkArrowDownFill } from 'react-icons/bs'
+import React, { ReactText, useState } from 'react'
 import {
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
   Box,
   BoxProps,
   Button,
@@ -10,54 +13,44 @@ import {
   DrawerContent,
   Flex,
   FlexProps,
-  Icon,
-  IconButton,
-  Link,
+  StackDivider,
   Text,
   useColorModeValue,
   useDisclosure,
+  VStack,
 } from '@chakra-ui/react'
 
+import AdminHeader from '~pages/viewer/AdminHeader'
 import AdminPDFconsole from '~pages/viewer/AdminPDFconsole'
 
 interface attachmentProps {
   name: string
-  icon: IconType
   attachmentID: string
 }
 const AttachmentProps: Array<attachmentProps> = [
   {
-    name: 'File 1',
-    icon: BsFillFileEarmarkArrowDownFill,
+    name: 'Attachment Form',
     attachmentID: '286a163021bade5eb765fc119d28c3de',
   },
   {
-    name: 'File 2',
-    icon: BsFillFileEarmarkArrowDownFill,
+    name: 'Unemployed',
     attachmentID: 'sample2.pdf',
   },
   {
-    name: 'File 3',
-    icon: BsFillFileEarmarkArrowDownFill,
+    name: 'Profit and Loss',
     attachmentID: '286a163021bade5eb765fc119d28c3de',
   },
   {
-    name: 'File 4',
-    icon: BsFillFileEarmarkArrowDownFill,
-    attachmentID: '286a163021bade5eb765fc119d28c3de',
-  },
-  {
-    name: 'File 5',
-    icon: BsFillFileEarmarkArrowDownFill,
+    name: 'CPF Statement of ...',
     attachmentID: '286a163021bade5eb765fc119d28c3de',
   },
 ]
 
 export default function SimpleSidebar() {
-  const { isOpen, onOpen, onClose } = useDisclosure()
+  const { isOpen, onClose } = useDisclosure()
   const [selectedAttachment, setSelectedAttachment] = useState('')
   return (
-    <Box minH="100vh" bg={useColorModeValue('gray.100', 'gray.900')}>
+    <AdminHeader>
       <SidebarContent
         setSelectedAttachment={setSelectedAttachment}
         onClose={() => onClose}
@@ -79,12 +72,11 @@ export default function SimpleSidebar() {
           />
         </DrawerContent>
       </Drawer>
-      {/* mobilenav */}
-      <MobileNav display={{ base: 'flex', md: 'none' }} onOpen={onOpen} />
+
       <Box ml={{ base: 0, md: 60 }} p="4">
         <AdminPDFconsole pdfIdentifier={selectedAttachment} />
       </Box>
-    </Box>
+    </AdminHeader>
   )
 }
 
@@ -109,16 +101,18 @@ const SidebarContent = ({
       {...rest}
     >
       <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
-        <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold">
-          Submission Details
-        </Text>
-        <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
+        <Box pb="15" pt="5">
+          <Text fontSize="1.2rem">Submission Details</Text>
+          <CloseButton
+            display={{ base: 'flex', md: 'none' }}
+            onClick={onClose}
+          />
+        </Box>
       </Flex>
       {AttachmentProps.map((link) => (
         <NavItem
           key={link.attachmentID}
           attachmentID={link.attachmentID}
-          icon={link.icon}
           setSelectedAttachment={setSelectedAttachment}
         >
           {link.name}
@@ -130,79 +124,50 @@ const SidebarContent = ({
 
 interface NavItemProps extends FlexProps {
   attachmentID: string
-  icon: IconType
   setSelectedAttachment: (attachment: string) => void
   children: ReactText
 }
 const NavItem = ({
   attachmentID,
-  icon,
   children,
   setSelectedAttachment,
-  ...rest
 }: NavItemProps) => {
   return (
-    <Button
-      variant="link"
-      onClick={() => setSelectedAttachment(attachmentID)}
-      style={{ textDecoration: 'none' }}
-      _focus={{ boxShadow: 'none' }}
-    >
-      <Flex
-        align="center"
-        p="4"
-        mx="4"
-        borderRadius="lg"
-        role="group"
-        cursor="pointer"
-        _hover={{
-          bg: 'cyan.400',
-          color: 'white',
-        }}
-        {...rest}
+    <Accordion allowToggle>
+      <VStack
+        divider={<StackDivider borderColor="gray.200" />}
+        spacing={4}
+        align="stretch"
       >
-        {icon && (
-          <Icon
-            mr="4"
-            fontSize="16"
-            _groupHover={{
-              color: 'white',
-            }}
-            as={icon}
-          />
-        )}
-        {children}
-      </Flex>
-    </Button>
-  )
-}
+        <AccordionItem>
+          <h2>
+            <AccordionButton>
+              <Box flex="1" textAlign="left">
+                {children}
+              </Box>
+              <AccordionIcon />
+            </AccordionButton>
+          </h2>
 
-interface MobileProps extends FlexProps {
-  onOpen: () => void
-}
-const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
-  return (
-    <Flex
-      ml={{ base: 0, md: 60 }}
-      px={{ base: 4, md: 24 }}
-      height="20"
-      alignItems="center"
-      bg={useColorModeValue('white', 'gray.900')}
-      borderBottomWidth="1px"
-      borderBottomColor={useColorModeValue('gray.200', 'gray.700')}
-      justifyContent="flex-start"
-      {...rest}
-    >
-      <IconButton
-        variant="outline"
-        onClick={onOpen}
-        aria-label="open menu"
-        icon={<BsFillFileEarmarkArrowDownFill />}
-      />
-
-      <Text fontSize="2xl" ml="8" fontFamily="monospace" fontWeight="bold">
-        Logo
-      </Text>
-    </Flex>
+          <AccordionPanel pb={4}>
+            <Button
+              variant="link"
+              onClick={() => setSelectedAttachment(attachmentID)}
+            >
+              <Flex
+                align="right"
+                p="1"
+                mx="4"
+                borderRadius="lg"
+                role="group"
+                cursor="pointer"
+              >
+                Item 1
+              </Flex>
+            </Button>
+          </AccordionPanel>
+        </AccordionItem>
+      </VStack>
+    </Accordion>
   )
 }
