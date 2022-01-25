@@ -6,6 +6,13 @@ export interface ConfigSchema {
   awsRegion: string
   mongoUrl: string
   session: { name: string; secret: string; cookie: { maxAge: number } }
+  mailConfig: {
+    host: string
+    port: number
+    user: string
+    password: string
+    temporarySender: string
+  }
   otp: {
     expiry: number
     secret: string
@@ -32,13 +39,42 @@ export const schema: Schema<ConfigSchema> = {
     doc: 'The AWS region for SES. Optional, logs mail to console if absent',
     env: 'AWS_REGION',
     format: '*',
-    default: '',
+    default: 'ap-southeast-1',
   },
   mongoUrl: {
     doc: 'The connection string for mongoDB instance',
     env: 'MONGODB_URL',
     format: String,
     default: '',
+  },
+  mailConfig: {
+    host: {
+      doc: 'The SMTP host to be used',
+      env: 'SES_SMTP_HOST',
+      default: '',
+      format: String,
+    },
+    port: {
+      doc: 'The SMTP port to be used',
+      env: 'SES_SMTP_PORT',
+      default: 25,
+      format: 'int',
+    },
+    user: {
+      doc: 'The SMTP user to be used',
+      env: 'SES_SMTP_USER',
+      default: '',
+    },
+    password: {
+      doc: 'The SMTP password to be used',
+      env: 'SES_SMTP_PASSWORD',
+      default: '',
+    },
+    temporarySender: {
+      doc: 'Temporary sender for SES used',
+      env: 'DOCULENS_EMAIL_SENDER',
+      default: '',
+    },
   },
   session: {
     name: {
