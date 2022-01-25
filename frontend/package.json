@@ -20,6 +20,7 @@
     "react-router-dom": "^6.2.1"
   },
   "devDependencies": {
+    "@chakra-ui/cli": "^1.7.0",
     "@snyk/protect": "latest",
     "@storybook/addon-actions": "^6.3.12",
     "@storybook/addon-essentials": "^6.3.12",
