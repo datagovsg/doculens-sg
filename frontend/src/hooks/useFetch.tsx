@@ -15,7 +15,7 @@ function useFetch<T>({ serviceFunction }: useFetchProps): [Array<T>, boolean] {
   }, [])
 
   async function fetchResource(): Promise<void> {
-    const response = await serviceFunction()
+    const response = await serviceFunction
     setData(response as Array<T>)
     setLoading(false)
   }
