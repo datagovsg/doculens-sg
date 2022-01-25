@@ -21,6 +21,9 @@ import {
   useOutsideClick,
   VStack,
 } from '@chakra-ui/react'
+import moment from 'moment-timezone'
+
+import { Form } from '~services/types'
 
 // Components used only by the card component
 
@@ -78,36 +81,32 @@ const ActionMenu: FC<ActionMenuProps> = ({ actions }) => {
 }
 
 type StatusIndicatorProps = {
-  status: 'active' | 'inactive' | 'draft'
+  isActive: boolean
 }
 
-const StatusIndicator: FC<StatusIndicatorProps> = ({ status }) => {
+const StatusIndicator: FC<StatusIndicatorProps> = ({ isActive }) => {
   const styles = useMultiStyleConfig('Card', {})
   let color
-  switch (status) {
-    case 'active':
+  switch (isActive) {
+    case true:
       color = 'success.500'
       break
-    case 'inactive':
+    case false:
       color = 'red.500'
       break
-    default:
-      color = 'warning.500'
   }
 
   return (
     <Flex sx={styles.indicator} direction="row">
       <Box h="8px" w="8px" borderRadius="4px" bg={color} mr="8px" />
-      {status}
+      {isActive ? 'active' : 'inactive'}
     </Flex>
   )
 }
 
-const Card: FC = () => {
+type CardProps = Pick<Form, 'id' | 'title' | 'isActive' | 'updatedAt'>
+const Card: FC<CardProps> = ({ title, id, isActive, updatedAt }) => {
   // TODO: Retrieve all forms properly, remove mocks
-  const id = 1
-  const title = 'This is a sample title'
-  const date = '16 Feb 2021'
 
   const styles = useMultiStyleConfig('Card', {})
 
@@ -124,18 +123,19 @@ const Card: FC = () => {
 
   return (
     <>
-      <Link to={`/responses/${id}`}>
+      <Link to={`${id}/responses`}>
         <VStack sx={styles.card} align="stretch" role="group">
           <VStack align="stretch" spacing="8px" flex={1}>
             <Text sx={styles.title} noOfLines={3}>
               {title}
             </Text>
             <Text flex={1} sx={styles.subtitle} isTruncated>
-              {date}
+              Modified&nbsp;
+              {moment(updatedAt).tz('Asia/Singapore').format('DD MMM YYYY')}
             </Text>
           </VStack>
           <Flex direction="row" sx={styles.actions}>
-            <StatusIndicator status={'active'} />
+            <StatusIndicator isActive={isActive} />
             <ActionMenu actions={formActions} />
           </Flex>
         </VStack>
