@@ -32,7 +32,7 @@ export const AdminPDFconsole = (pdfIdentifier: any) => {
     <div className="container">
       <div className="pdf-container">
         {/* show pdf conditionally (if we have one)  */}
-        {pdfIdentifier && pdfView()}
+        {pdfIdentifier.pdfIdentifier && pdfView()}
       </div>
     </div>
   )
