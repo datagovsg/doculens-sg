@@ -4,6 +4,7 @@ export interface ConfigSchema {
   port: number
   environment: 'development' | 'staging' | 'production' | 'test'
   awsRegion: string
+  mongoUrl: string
   session: { name: string; secret: string; cookie: { maxAge: number } }
   otp: {
     expiry: number
@@ -31,6 +32,12 @@ export const schema: Schema<ConfigSchema> = {
     doc: 'The AWS region for SES. Optional, logs mail to console if absent',
     env: 'AWS_REGION',
     format: '*',
+    default: '',
+  },
+  mongoUrl: {
+    doc: 'The connection string for mongoDB instance',
+    env: 'MONGODB_URL',
+    format: String,
     default: '',
   },
   session: {

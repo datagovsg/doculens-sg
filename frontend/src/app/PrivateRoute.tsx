@@ -1,7 +1,9 @@
 import React from 'react'
 import { Navigate, NavigateProps, useLocation } from 'react-router-dom'
+import { Container } from '@chakra-ui/react'
 
 import { LOGIN_ROUTE } from '~constants/routes'
+import Navbar from '~components/Navbar/Navbar'
 
 import { useAuth } from '~features/auth'
 
@@ -23,7 +25,12 @@ export const PrivateRoute = ({
   const { isAuthenticated } = useAuth()
 
   return isAuthenticated ? (
-    element
+    <>
+      <Navbar />
+      <Container pt="80px" minW="100vw">
+        {element}
+      </Container>
+    </>
   ) : (
     <Navigate replace to={redirectTo} state={{ from: location }} />
   )

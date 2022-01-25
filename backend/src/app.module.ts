@@ -1,5 +1,4 @@
 import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common'
-import { SequelizeModule } from '@nestjs/sequelize'
 import { HelmetMiddleware } from 'middlewares/helmet.middleware'
 import { SessionMiddleware } from 'middlewares/session.middleware'
 import { ConfigModule } from 'config/config.module'
@@ -9,11 +8,23 @@ import { MailerModule } from 'mailer/mailer.module'
 import { TerminusModule } from '@nestjs/terminus'
 import { HealthModule } from './health/health.module'
 import { AttachmentModule } from './S3/s3.module'
+import { FormsModule } from './forms/forms.module'
+import { MongooseModule } from '@nestjs/mongoose'
+import { SequelizeModule } from '@nestjs/sequelize'
+import { ConfigService } from './config/config.service'
+import { ApplicationsModule } from './applications/applications.module'
 
 @Module({
   imports: [
     ConfigModule,
     OtpModule,
+    MongooseModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => {
+        return { uri: configService.get('mongoUrl') }
+      },
+      inject: [ConfigService],
+    }),
     MailerModule,
     SequelizeModule.forRoot({
       dialect: 'sqlite', // TO-DO: change to production database dialect
@@ -24,6 +35,8 @@ import { AttachmentModule } from './S3/s3.module'
     TerminusModule,
     HealthModule,
     AttachmentModule,
+    FormsModule,
+    ApplicationsModule,
   ],
 })
 export class AppModule implements NestModule {
