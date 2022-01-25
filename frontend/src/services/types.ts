@@ -1,6 +1,6 @@
 // TODO: Swap types to non-primitive where necessary
 
-interface Form {
+export interface Form {
   id: string
   isActive: boolean
   description: string
