@@ -1,4 +1,5 @@
 import { FC } from 'react'
+import { Link, Navigate, useNavigate } from 'react-router-dom'
 import {
   Spinner,
   Table,
@@ -62,13 +63,20 @@ const SingleRow: FC<ApplicationMetadata> = ({
   status,
   name,
   createdAt,
-}) => (
-  <Tr>
-    <Td>{id}</Td>
-    <Td>{name}</Td>
-    <Td>{status}</Td>
-    <Td>{moment(createdAt).tz('Asia/Singapore').format('DD MMM YYYY')}</Td>
-  </Tr>
-)
+}) => {
+  const navigate = useNavigate()
+
+  const handleRowClick = () => {
+    navigate(`/viewer/${id}`)
+  }
+  return (
+    <Tr onClick={handleRowClick}>
+      <Td>{id}</Td>
+      <Td>{name}</Td>
+      <Td>{status}</Td>
+      <Td>{moment(createdAt).tz('Asia/Singapore').format('DD MMM YYYY')}</Td>
+    </Tr>
+  )
+}
 
 export default ResponseTable
