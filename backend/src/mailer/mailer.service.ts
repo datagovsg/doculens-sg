@@ -36,6 +36,7 @@ export class MailerService {
         from: this.config.get('mailConfig.temporarySender'),
         to: mailOptions.to,
         html: htmlString(message),
+        subject: mailOptions.subject,
       })
     }
 
