@@ -1,7 +1,8 @@
 import React from 'react'
+import { VStack } from '@chakra-ui/layout'
 
 //import { GovtMasthead } from '@opengovsg/design-system-react' // Pending design-system-react 0.0.6 release
-import Hero from '~pages/public/components/Hero'
+import { Hero, Instructions } from './components'
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface PublicPageProps {}
@@ -12,6 +13,9 @@ const PublicPage = ({}: PublicPageProps) => {
     <>
       {/* <GovtMasthead /> */}
       <Hero />
+      <VStack py="84px" spacing={2}>
+        <Instructions />
+      </VStack>
     </>
   )
 }

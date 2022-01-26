@@ -9,6 +9,7 @@
     "@emotion/styled": "^11.3.0",
     "@opengovsg/design-system-react": "0.0.5",
     "axios": "^0.25.0",
+    "chakra-ui-markdown-renderer": "^4.0.0",
     "framer-motion": "^4.1.17",
     "libphonenumber-js": "^1.9.44",
     "moment-timezone": "^0.5.34",
