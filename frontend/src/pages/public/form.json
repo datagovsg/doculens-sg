@@ -56,10 +56,12 @@
         {
           "type": "conditional-number",
           "label": "How many household members are unemployed and below age 62?",
+          "s-label": "Unemployed",
           "subquestions": [
             {
               "type": "file",
               "label": "Completed Declaration of Unemployment",
+              "s-label": "Declaration",
               "helpers": [
                 {
                   "helpertext": "Download and complete the declaration of unemployment form",
@@ -70,6 +72,7 @@
             {
               "type": "file",
               "label": "CPF Transaction Statement or Contribution History for past 12 months",
+              "s-label": "CPF",
               "helpers": [
                 {
                   "helpertext": "Find out how to obtain your CPF Contribution History",
@@ -87,10 +90,12 @@
         {
           "type": "conditional-number",
           "label": "How many household members are self-employed?",
+          "s-label": "Self-employed",
           "subquestions": [
             {
               "type": "file",
               "label": "Latest Income Tax Notice of Assessment OR Declaration of Self-Employment if tax not required",
+              "s-label": "IRAS",
               "helpers": [
                 {
                   "helpertext": "Find out how to obtain your Latest Income Tax Notice of Assessment",
@@ -105,6 +110,7 @@
             {
               "type": "file",
               "label": "CPF Transaction Statement or Contribution History for past 12 months",
+              "s-label": "CPF",
               "helpers": [
                 {
                   "helpertext": "Find out how to obtain your CPF Contribution History",
@@ -122,10 +128,12 @@
         {
           "type": "conditional-number",
           "label": "How many household members are employed?",
+          "s-label": "Employed",
           "subquestions": [
             {
               "type": "file",
               "label": "Latest Income Tax Notice of Assessment",
+              "s-label": "IRAS",
               "helpers": [
                 {
                   "helpertext": "Find out how to obtain your Latest Income Tax Notice of Assessment",
@@ -136,6 +144,7 @@
             {
               "type": "file",
               "label": "CPF Transaction Statement or Contribution History for past 12 months",
+              "s-label": "CPF",
               "helpers": [
                 {
                   "helpertext": "Find out how to obtain your CPF Contribution History",
@@ -146,6 +155,7 @@
             {
               "type": "file",
               "label": "Latest payslip OR letter from employer certifying gross income",
+              "s-label": "Payslip",
               "helpers": [
                 {
                   "helpertext": "Download payslip template",
@@ -163,10 +173,12 @@
         {
           "type": "conditional-boolean",
           "label": "Are there any full-time students at tertiary institutions in your household?",
+          "s-label": "Student",
           "subquestions": [
             {
               "type": "file",
               "label": "Copies of student/ matriculation card for ALL full-time student",
+              "s-label": "Card",
               "helpers": [
                 {
                   "helpertext": "Scan and attach matriculation card for every single full time student"
@@ -178,10 +190,12 @@
         {
           "type": "conditional-boolean",
           "label": "Are there any full-time National Servicemen in your household?",
+          "s-label": "NS",
           "subquestions": [
             {
               "type": "file",
               "label": "Copies of identification card for ALL National Servicemen",
+              "s-label": "Card",
               "helpers": [
                 {
                   "helpertext": "Scan and attach identification card for every national servicemen"
@@ -197,11 +211,13 @@
       "questions": [
         {
           "type": "file",
-          "label": " Proof of other sources of income"
+          "label": " Proof of other sources of income",
+          "s-label": "Other"
         },
         {
           "type": "file",
           "label": "Miscellaneous Documents",
+          "s-label": "Misc",
           "helpers": [
             {
               "helpertext": "e.g. Letter of Guardianship for non-parents"
