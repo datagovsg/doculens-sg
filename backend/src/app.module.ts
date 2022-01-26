@@ -7,6 +7,7 @@ import { OtpModule } from 'otp/otp.module'
 import { MailerModule } from 'mailer/mailer.module'
 import { TerminusModule } from '@nestjs/terminus'
 import { HealthModule } from './health/health.module'
+import { AttachmentModule } from './S3/s3.module'
 import { FormsModule } from './forms/forms.module'
 import { MongooseModule } from '@nestjs/mongoose'
 import { SequelizeModule } from '@nestjs/sequelize'
@@ -33,6 +34,7 @@ import { ApplicationsModule } from './applications/applications.module'
     AuthModule,
     TerminusModule,
     HealthModule,
+    AttachmentModule,
     FormsModule,
     ApplicationsModule,
   ],
