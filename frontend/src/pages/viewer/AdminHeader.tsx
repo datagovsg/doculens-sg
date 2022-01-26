@@ -8,15 +8,12 @@ import {
   HStack,
   IconButton,
   Link,
-  Menu,
-  MenuButton,
-  MenuDivider,
-  MenuItem,
-  MenuList,
   Stack,
   useColorModeValue,
   useDisclosure,
 } from '@chakra-ui/react'
+
+import IncompleteModal from '~pages/viewer/IncompleteModal'
 
 const Links = ['Back To List']
 
@@ -65,7 +62,7 @@ export default function AdminHeader({ children }: { children: ReactNode }) {
           </HStack>
           <Flex alignItems={'center'}>
             <HStack spacing="24px">
-              <Button variant="outline">Mark as incomplete</Button>
+              <IncompleteModal />
               <Button>Mark as complete</Button>
             </HStack>
           </Flex>
