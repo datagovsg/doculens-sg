@@ -1,4 +1,5 @@
 import React, { ReactText, useState } from 'react'
+import { AiOutlineFile } from 'react-icons/ai'
 import {
   Accordion,
   AccordionButton,
@@ -13,6 +14,8 @@ import {
   DrawerContent,
   Flex,
   FlexProps,
+  HStack,
+  Link,
   StackDivider,
   Text,
   useColorModeValue,
@@ -74,7 +77,7 @@ export default function SimpleSidebar() {
         </DrawerContent>
       </Drawer>
 
-      <Box ml={{ base: 0, md: 60 }} p="4">
+      <Box ml={{ base: 0, md: 60 }} p="4" marginTop={'72px'}>
         <AdminPDFconsole pdfIdentifier={selectedAttachment} />
       </Box>
     </>
@@ -102,9 +105,9 @@ const SidebarContent = ({
       pt={'73px'}
       {...rest}
     >
-      <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
-        <Box pb="15" pt="5">
-          <Text fontSize="1.2rem">Submission Details</Text>
+      <Flex py="12px" alignItems="center" justifyContent="space-between">
+        <Box>
+          <Text textStyle="body1">Submission Details</Text>
           <CloseButton
             display={{ base: 'flex', md: 'none' }}
             onClick={onClose}
@@ -137,36 +140,29 @@ const NavItem = ({
   return (
     <Accordion allowToggle>
       <VStack
-        divider={<StackDivider borderColor="gray.200" />}
+        divider={<StackDivider borderColor="neutral.300" />}
         spacing={4}
         align="stretch"
       >
         <AccordionItem>
           <h2>
             <AccordionButton>
-              <Box flex="1" textAlign="left">
+              <Box flex="1" textAlign="left" py="2px">
                 {children}
               </Box>
               <AccordionIcon />
             </AccordionButton>
           </h2>
 
-          <AccordionPanel pb={4}>
-            <Button
-              variant="link"
+          <AccordionPanel px={2}>
+            <HStack
+              py={'3px'}
               onClick={() => setSelectedAttachment(attachmentID)}
+              cursor="pointer"
             >
-              <Flex
-                align="right"
-                p="1"
-                mx="4"
-                borderRadius="lg"
-                role="group"
-                cursor="pointer"
-              >
-                Item 1
-              </Flex>
-            </Button>
+              <AiOutlineFile />
+              <Text>Item 1</Text>
+            </HStack>
           </AccordionPanel>
         </AccordionItem>
       </VStack>
