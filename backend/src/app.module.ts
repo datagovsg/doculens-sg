@@ -13,9 +13,26 @@ import { MongooseModule } from '@nestjs/mongoose'
 import { SequelizeModule } from '@nestjs/sequelize'
 import { ConfigService } from './config/config.service'
 import { ApplicationsModule } from './applications/applications.module'
+import { ServeStaticModule } from '@nestjs/serve-static'
+import { join } from 'path'
 
 @Module({
   imports: [
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', '..', 'frontend', 'build'),
+      serveStaticOptions: {
+        maxAge: 2 * 60 * 60 * 1000, // 2 hours, same as cloudflare
+        setHeaders: function (res, path) {
+          // set maxAge to 0 for root index.html
+          if (
+            path ===
+            join(__dirname, '..', '..', 'frontend', 'build', 'index.html')
+          ) {
+            res.setHeader('Cache-control', 'public, max-age=0')
+          }
+        },
+      },
+    }),
     ConfigModule,
     OtpModule,
     MongooseModule.forRootAsync({
