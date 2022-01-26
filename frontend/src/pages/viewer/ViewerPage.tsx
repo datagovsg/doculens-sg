@@ -20,8 +20,8 @@ import {
   VStack,
 } from '@chakra-ui/react'
 
-import AdminHeader from '~pages/viewer/AdminHeader'
 import AdminPDFconsole from '~pages/viewer/AdminPDFconsole'
+import ViewerHeader from '~pages/viewer/components/ViewerHeader'
 
 interface attachmentProps {
   name: string
@@ -50,7 +50,8 @@ export default function SimpleSidebar() {
   const { isOpen, onClose } = useDisclosure()
   const [selectedAttachment, setSelectedAttachment] = useState('')
   return (
-    <AdminHeader>
+    <>
+      <ViewerHeader />
       <SidebarContent
         setSelectedAttachment={setSelectedAttachment}
         onClose={() => onClose}
@@ -76,7 +77,7 @@ export default function SimpleSidebar() {
       <Box ml={{ base: 0, md: 60 }} p="4">
         <AdminPDFconsole pdfIdentifier={selectedAttachment} />
       </Box>
-    </AdminHeader>
+    </>
   )
 }
 
@@ -98,6 +99,7 @@ const SidebarContent = ({
       w={{ base: 'full', md: 60 }}
       pos="fixed"
       h="full"
+      pt={'73px'}
       {...rest}
     >
       <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
