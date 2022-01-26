@@ -3,6 +3,7 @@ import { Logger } from '@nestjs/common'
 import nodemailer, { SendMailOptions, Transporter } from 'nodemailer'
 
 import { ConfigService } from '../config/config.service'
+import { htmlString } from './templates/standard'
 
 @Injectable()
 export class MailerService {
@@ -27,8 +28,17 @@ export class MailerService {
       }
 
   sendMail = async (
-    mailOptions: Omit<SendMailOptions, 'from'>
+    mailOptions: Omit<SendMailOptions, 'from'>,
+    message?: string
   ): Promise<void> => {
+    if (message) {
+      return this.mailer.sendMail({
+        from: this.config.get('mailConfig.temporarySender'),
+        to: mailOptions.to,
+        html: htmlString(message),
+      })
+    }
+
     return this.mailer.sendMail({
       ...mailOptions,
       from: this.config.get('mailConfig.temporarySender'),

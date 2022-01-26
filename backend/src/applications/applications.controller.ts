@@ -37,11 +37,13 @@ export class ApplicationsController {
     }
 
     // TODO: Consider fire and forget
-    await this.mailService.sendMail({
-      subject: sendEmailToApplicantDto.subject,
-      text: sendEmailToApplicantDto.content,
-      to: applicantEmail,
-    })
+    await this.mailService.sendMail(
+      {
+        subject: sendEmailToApplicantDto.subject,
+        to: applicantEmail,
+      },
+      sendEmailToApplicantDto.content
+    )
 
     return {
       status: 'success',
