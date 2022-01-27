@@ -7,7 +7,6 @@ import {
   AccordionIcon,
   AccordionItem,
   AccordionPanel,
-  background,
   Box,
   BoxProps,
   CloseButton,
@@ -26,32 +25,13 @@ import {
 } from '@chakra-ui/react'
 import axios from 'axios'
 
-import { ViewerContextProvider } from '~/data/ViewerContext'
-
 import useFetchSingular from '~hooks/useFetchSingular'
 import { retrieveApplicationById } from '~services/DoculensApi'
-import {
-  ApplicationMetadata,
-  ApplicationStatus,
-  Attachment,
-  Form,
-} from '~services/types'
+import { ApplicationMetadata, Attachment } from '~services/types'
 import ConditionalWrapper from '~components/ConditionalWrapper'
 
 import AdminPDFconsole from '~pages/viewer/AdminPDFconsole'
 import ViewerHeader from '~pages/viewer/components/ViewerHeader'
-
-interface ActualAttachmentProps {
-  category: string
-  files: string[]
-}
-
-const AttachmentProps: Array<ActualAttachmentProps> = [
-  {
-    category: 'Attachment Form',
-    files: ['wee', 'sss', 'sss'],
-  },
-]
 
 export default function SimpleSidebar() {
   // Retrieve application on render
