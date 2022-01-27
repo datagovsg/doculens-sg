@@ -92,4 +92,12 @@ export const textStyles = {
     letterSpacing: '0em',
     fontFeatureSettings: "'tnum' on, 'lnum' on, 'cv05' on",
   },
+  dialoghead: {
+    fontSize: '0.5',
+    lineHeight: '1.5rem',
+    fontWeight: 600,
+    letterSpacing: '0.08em',
+    textTransform: 'uppercase',
+    fontFeatureSettings: "'tnum' on, 'lnum' on, 'cv05' on",
+  },
 }
