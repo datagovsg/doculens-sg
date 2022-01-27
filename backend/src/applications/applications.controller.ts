@@ -45,7 +45,7 @@ export class ApplicationsController {
       // TODO: Consider fire and forget
       await this.mailService.sendMail(
         {
-          subject: markSubmissionRequest.emailParams?.content,
+          subject: markSubmissionRequest.emailParams?.subject,
           to: applicantEmail,
         },
         markSubmissionRequest.emailParams?.content

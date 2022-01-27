@@ -1,7 +1,7 @@
 // @ts-nocheck
 // tslint:disable
 
-export const htmlString = (message: string) => `
+export const htmlString = (message: string, subject: string | undefined) => `
   <!DOCTYPE html>
 
 <html lang="en" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:v="urn:schemas-microsoft-com:vml">
@@ -103,7 +103,18 @@ export const htmlString = (message: string) => `
 <td>
 <div style="font-family: sans-serif">
 <div style="font-size: 14px; mso-line-height-alt: 16.8px; color: #3b4e9a; line-height: 1.2; font-family: Helvetica Neue, Helvetica, Arial, sans-serif;">
-<p style="margin: 0; font-size: 14px;"><strong><span style="font-size:38px;">An update about your submission! </span></strong></p>
+<p style="margin: 0; font-size: 14px;"><strong><span style="font-size:38px;">An update about your application! </span></strong></p>
+</div>
+</div>
+</td>
+</tr>
+</table>
+<table border="0" cellpadding="10" cellspacing="0" class="text_block" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; word-break: break-word;" width="100%">
+<tr>
+<td>
+<div style="font-family: sans-serif">
+<div style="font-size: 14px; mso-line-height-alt: 16.8px; color: #40507a; line-height: 1.2; font-family: Helvetica Neue, Helvetica, Arial, sans-serif;">
+<p style="margin: 0; font-size: 22px;"><span style="font-size:22px;">${subject}</span></p>
 </div>
 </div>
 </td>
@@ -115,17 +126,6 @@ export const htmlString = (message: string) => `
 <div style="font-family: sans-serif">
 <div style="font-size: 14px; mso-line-height-alt: 16.8px; color: #40507a; line-height: 1.2; font-family: Helvetica Neue, Helvetica, Arial, sans-serif;">
 <p style="margin: 0; font-size: 14px;"><span style="font-size:16px;">${message}</span></p>
-</div>
-</div>
-</td>
-</tr>
-</table>
-<table border="0" cellpadding="10" cellspacing="0" class="text_block" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; word-break: break-word;" width="100%">
-<tr>
-<td>
-<div style="font-family: sans-serif">
-<div style="font-size: 14px; mso-line-height-alt: 16.8px; color: #40507a; line-height: 1.2; font-family: Helvetica Neue, Helvetica, Arial, sans-serif;">
-<p style="margin: 0; font-size: 14px;"><span style="font-size:16px;">Note that this is a staging demo!</span></p>
 </div>
 </div>
 </td>
