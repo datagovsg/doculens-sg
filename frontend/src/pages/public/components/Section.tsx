@@ -6,13 +6,19 @@ import {
   FormLabel,
   Input,
   Link,
+  NumberDecrementStepper,
+  NumberIncrementStepper,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
   VStack,
 } from '@chakra-ui/react'
+import { YesNo } from '@opengovsg/design-system-react'
 
 import { Card } from './Card'
 import { Dropbox } from './Dropbox'
 
-interface SectionProps {
+export interface SectionData {
   heading: string
   questions: Array<{
     type: string
@@ -25,6 +31,9 @@ interface SectionProps {
     }>
     placeholder?: string
   }>
+}
+
+export interface SectionProps extends SectionData {
   register: UseFormRegister<any>
   watch: UseFormWatch<any>
 }
@@ -39,11 +48,18 @@ export const Section: FC<SectionProps> = ({
     <Card heading={heading}>
       <VStack>
         {questions.map((question, index) => {
-          console.log(question.id)
           const getType = {
             file: <Dropbox name={question.id} />,
-            'conditional-number': <div />,
-            'conditional-boolean': <div />,
+            'conditional-number': (
+              <NumberInput defaultValue={0} min={0}>
+                <NumberInputField />
+                <NumberInputStepper>
+                  <NumberIncrementStepper />
+                  <NumberDecrementStepper />
+                </NumberInputStepper>
+              </NumberInput>
+            ),
+            'conditional-boolean': <YesNo name={question.id} />,
           }[question.type] || (
             <Input type={question.type} {...register(question.id)} />
           )
@@ -61,7 +77,7 @@ export const Section: FC<SectionProps> = ({
                   )}
                 </FormHelperText>
               ))}
-              <Input id={question.id}>{}</Input>
+              {getType}
             </FormControl>
           )
         })}

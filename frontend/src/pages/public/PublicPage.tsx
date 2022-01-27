@@ -25,7 +25,6 @@ const PublicPage: FC = () => {
     formState: { errors },
   } = useForm<FormValues>()
   const onSubmit: SubmitHandler<FormValues> = (data) => console.log(data)
-  const watchShowAge = watch('Unemployed', 0) // you can supply default value as second argument
 
   return (
     <>
