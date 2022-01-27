@@ -3,7 +3,7 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import { VStack } from '@chakra-ui/react'
 
 //import { GovtMasthead } from '@opengovsg/design-system-react' // Pending design-system-react 0.0.6 release
-import { Hero, Instructions, Section, SectionData } from './components'
+import { Hero, Instructions, ISection, Section } from './components'
 import { body, estmins, title } from './form.json'
 
 export interface FormValues {
@@ -33,7 +33,7 @@ const PublicPage: FC = () => {
       <VStack py="84px" spacing={6}>
         <Instructions />
         <form onSubmit={handleSubmit(onSubmit)}>
-          {(body as SectionData[]).map((section, index) => {
+          {(body as ISection[]).map((section, index) => {
             return (
               <Section
                 key={index}
