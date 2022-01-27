@@ -100,4 +100,11 @@ export const textStyles = {
     textTransform: 'uppercase',
     fontFeatureSettings: "'tnum' on, 'lnum' on, 'cv05' on",
   },
+  viewer1: {
+    fontSize: '1.3rem',
+    lineHeight: '2rem',
+    fontWeight: 300,
+    letterSpacing: '-0.022em',
+    fontFeatureSettings: "'tnum' on, 'lnum' on, 'cv05' on",
+  },
 }

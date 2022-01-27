@@ -50,11 +50,15 @@ export default function SimpleSidebar() {
   const { isOpen, onClose } = useDisclosure()
 
   const [attachedFile, setFile] = useState<string>()
+  const [id, setId] = useState('')
 
   const setAttachedfile = (id) => {
     axios
       .get(`/api/attachment/${id}`, { responseType: 'arraybuffer' })
-      .then((r) => setFile(r.data))
+      .then((r) => {
+        setId(id)
+        setFile(r.data)
+      })
   }
 
   return (
@@ -87,8 +91,15 @@ export default function SimpleSidebar() {
         </DrawerContent>
       </Drawer>
 
-      <Box ml={{ base: 0, md: 60 }} p="4" marginTop={'72px'}>
-        {attachedFile && <AdminPDFconsole attachedFile={attachedFile} />}
+      <Box ml={{ base: 0, md: 60 }} marginTop={'72px'}>
+        {attachedFile && (
+          <>
+            <Flex align={'center'} justify={'center'} backgroundColor="#EEE">
+              <Text textStyle="viewer1">{id}</Text>
+            </Flex>
+            <AdminPDFconsole attachedFile={attachedFile} />
+          </>
+        )}
       </Box>
     </ConditionalWrapper>
   )
