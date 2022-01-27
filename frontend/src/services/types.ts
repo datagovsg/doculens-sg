@@ -1,4 +1,5 @@
 // TODO: Swap types to non-primitive where necessary
+// TODO: Setup a shared type library. Types are redundantly defined on BE as well
 
 enum ApplicationStatus {
   COMPLETED = 'Completed',
@@ -22,4 +23,17 @@ export interface ApplicationMetadata {
   name: string
   // May want to consider using date-string for this once schema finalised
   createdAt: string
+}
+
+export interface MarkSubmissionRequestDto {
+  emailParams?: {
+    subject: string
+    content: string
+  }
+  status: ApplicationStatus
+}
+
+export interface MarkSubmissionResponse {
+  status: 'success'
+  email?: string
 }

@@ -12,8 +12,7 @@ import { CreateApplicationDto } from './dto/create-application.dto'
 import { FormsService } from '../forms/forms.service'
 import { Application } from './schemas/application.schema'
 import { MailerService } from '../mailer/mailer.service'
-import { SendEmailToApplicantDto } from './dto/send-email-application.dto'
-import { SendEmailResponse } from './types'
+import { MarkSubmissionRequestDto, MarkSubmissionResponse } from './types'
 
 @Controller('applications')
 export class ApplicationsController {
@@ -23,31 +22,41 @@ export class ApplicationsController {
     private readonly mailService: MailerService
   ) {}
 
-  @Post(':id/sendMail')
+  @Post(':id/markStatus')
   async sendEmailToApplicant(
-    @Body() sendEmailToApplicantDto: SendEmailToApplicantDto,
+    @Body() markSubmissionRequest: MarkSubmissionRequestDto,
     @Param('id') id: string
-  ): Promise<SendEmailResponse> {
+  ): Promise<MarkSubmissionResponse> {
     const applicantEmail = (
-      await this.applicationsService.findApplicationById(id)
+      await this.applicationsService.updateApplicationStatus(
+        id,
+        markSubmissionRequest.status
+      )
     ).email
 
-    if (!applicantEmail) {
+    if (!applicantEmail && markSubmissionRequest.emailParams) {
       throw new NotFoundException('applicant email not found')
     }
 
-    // TODO: Consider fire and forget
-    await this.mailService.sendMail(
-      {
-        subject: sendEmailToApplicantDto.subject,
-        to: applicantEmail,
-      },
-      sendEmailToApplicantDto.content
-    )
+    if (
+      markSubmissionRequest.status === 'Incomplete' &&
+      markSubmissionRequest.emailParams
+    ) {
+      // TODO: Consider fire and forget
+      await this.mailService.sendMail(
+        {
+          subject: markSubmissionRequest.emailParams?.content,
+          to: applicantEmail,
+        },
+        markSubmissionRequest.emailParams?.content
+      )
+    }
 
     return {
       status: 'success',
-      email: applicantEmail,
+      ...(markSubmissionRequest.status === 'Incomplete'
+        ? { email: applicantEmail }
+        : undefined),
     }
   }
 
