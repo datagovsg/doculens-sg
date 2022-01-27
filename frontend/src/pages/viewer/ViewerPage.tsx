@@ -7,9 +7,11 @@ import {
   AccordionIcon,
   AccordionItem,
   AccordionPanel,
+  background,
   Box,
   BoxProps,
   CloseButton,
+  Divider,
   Drawer,
   DrawerContent,
   Flex,
@@ -24,34 +26,30 @@ import {
 } from '@chakra-ui/react'
 import axios from 'axios'
 
+import { ViewerContextProvider } from '~/data/ViewerContext'
+
 import useFetchSingular from '~hooks/useFetchSingular'
 import { retrieveApplicationById } from '~services/DoculensApi'
-import { ApplicationMetadata, Form } from '~services/types'
+import {
+  ApplicationMetadata,
+  ApplicationStatus,
+  Attachment,
+  Form,
+} from '~services/types'
 import ConditionalWrapper from '~components/ConditionalWrapper'
 
 import AdminPDFconsole from '~pages/viewer/AdminPDFconsole'
 import ViewerHeader from '~pages/viewer/components/ViewerHeader'
 
-interface attachmentProps {
-  name: string
-  attachmentID: string
+interface ActualAttachmentProps {
+  category: string
+  files: string[]
 }
-const AttachmentProps: Array<attachmentProps> = [
+
+const AttachmentProps: Array<ActualAttachmentProps> = [
   {
-    name: 'Attachment Form',
-    attachmentID: 'a5045f0658628970bc646b5142ae611e',
-  },
-  {
-    name: 'Unemployed',
-    attachmentID: 'sample2.pdf',
-  },
-  {
-    name: 'Profit and Loss',
-    attachmentID: '286a163021bade5eb765fc119d28c3de',
-  },
-  {
-    name: 'CPF Statement of ...',
-    attachmentID: '286a163021bade5eb765fc119d28c3de',
+    category: 'Attachment Form',
+    files: ['wee', 'sss', 'sss'],
   },
 ]
 
@@ -70,6 +68,7 @@ export default function SimpleSidebar() {
   })
 
   const { isOpen, onClose } = useDisclosure()
+
   const [attachedFile, setFile] = useState<string>()
 
   const setAttachedfile = (id) => {
@@ -80,11 +79,12 @@ export default function SimpleSidebar() {
 
   return (
     <ConditionalWrapper
-      condition={isLoading || application === null}
+      condition={isLoading || !application}
       wrapper={() => <Spinner />}
     >
       <ViewerHeader application={application as ApplicationMetadata} />
       <SidebarContent
+        attachments={application?.attachments as Attachment[]}
         setAttachedfile={setAttachedfile}
         onClose={() => onClose}
         display={{ base: 'none', md: 'block' }}
@@ -99,7 +99,11 @@ export default function SimpleSidebar() {
         size="full"
       >
         <DrawerContent>
-          <SidebarContent setAttachedfile={setAttachedfile} onClose={onClose} />
+          <SidebarContent
+            attachments={application?.attachments as Attachment[]}
+            setAttachedfile={setAttachedfile}
+            onClose={onClose}
+          />
         </DrawerContent>
       </Drawer>
 
@@ -113,9 +117,11 @@ export default function SimpleSidebar() {
 interface SidebarProps extends BoxProps {
   onClose: () => void
   setAttachedfile: (attachment: string) => void
+  attachments: Attachment[]
 }
 
 const SidebarContent = ({
+  attachments,
   setAttachedfile,
   onClose,
   ...rest
@@ -140,13 +146,13 @@ const SidebarContent = ({
           />
         </Box>
       </Flex>
-      {AttachmentProps.map((link) => (
+      {attachments.map((attachmentGroup) => (
         <NavItem
-          key={link.attachmentID}
-          attachmentID={link.attachmentID}
+          key={attachmentGroup.category}
+          attachmentIDs={attachmentGroup.files}
           setAttachedfile={setAttachedfile}
         >
-          {link.name}
+          {attachmentGroup.category}
         </NavItem>
       ))}
     </Box>
@@ -154,11 +160,15 @@ const SidebarContent = ({
 }
 
 interface NavItemProps extends FlexProps {
-  attachmentID: string
+  attachmentIDs: string[]
   setAttachedfile: (attachment: string) => void
   children: ReactText
 }
-const NavItem = ({ attachmentID, children, setAttachedfile }: NavItemProps) => {
+const NavItem = ({
+  attachmentIDs,
+  children,
+  setAttachedfile,
+}: NavItemProps) => {
   return (
     <Accordion allowToggle>
       <VStack
@@ -169,22 +179,37 @@ const NavItem = ({ attachmentID, children, setAttachedfile }: NavItemProps) => {
         <AccordionItem>
           <h2>
             <AccordionButton>
-              <Box flex="1" textAlign="left" py="2px">
+              <Box flex="1" textAlign="left">
                 {children}
               </Box>
               <AccordionIcon />
             </AccordionButton>
           </h2>
 
-          <AccordionPanel px={2}>
-            <HStack
-              py={'3px'}
-              onClick={() => setAttachedfile(attachmentID)}
-              cursor="pointer"
-            >
-              <AiOutlineFile />
-              <Text>Item 1</Text>
-            </HStack>
+          <AccordionPanel px={2} pb={0}>
+            {attachmentIDs.map((attachmentID) => (
+              <>
+                <HStack
+                  flex={1}
+                  _hover={{ backgroundColor: 'primary.200' }}
+                  h={'54px'}
+                  onClick={() => setAttachedfile(attachmentID)}
+                  cursor="pointer"
+                  textOverflow={'ellipsis'}
+                  whiteSpace={'nowrap'}
+                  overflow="hidden"
+                >
+                  <Box>
+                    <AiOutlineFile />
+                  </Box>
+
+                  <Text textOverflow={'ellipsis'} overflow="hidden">
+                    {attachmentID}
+                  </Text>
+                </HStack>
+                <Divider />
+              </>
+            ))}
           </AccordionPanel>
         </AccordionItem>
       </VStack>

@@ -29,9 +29,11 @@ const placeHolder =
 export default function IncompleteModal({
   email,
   id,
+  setStatus,
 }: {
   email: string
   id: string
+  setStatus: (applicationStatus: ApplicationStatus) => void
 }) {
   const formMethods = useForm({
     mode: 'onChange',
@@ -49,6 +51,7 @@ export default function IncompleteModal({
         content: contentValue,
       },
     })
+    setStatus(ApplicationStatus.INCOMPLETE)
     setLoading(false)
     onClose()
 

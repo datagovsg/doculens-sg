@@ -14,11 +14,18 @@ import {
 } from '@chakra-ui/react'
 import { InlineMessage } from '@opengovsg/design-system-react'
 
-export default function CompleteModal() {
+import { ApplicationStatus } from '~services/types'
+
+export default function CompleteModal({
+  setStatus,
+}: {
+  setStatus: (applicationStatus: ApplicationStatus) => void
+}) {
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   const onSubmit = () => {
-    console.log('Handle submit')
+    setStatus(ApplicationStatus.COMPLETED)
+    onClose()
   }
 
   return (
