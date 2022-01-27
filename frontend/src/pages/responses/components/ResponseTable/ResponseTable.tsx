@@ -70,7 +70,11 @@ const SingleRow: FC<ApplicationMetadata> = ({
     navigate(`/viewer/${id}`)
   }
   return (
-    <Tr onClick={handleRowClick}>
+    <Tr
+      onClick={handleRowClick}
+      _hover={{ backgroundColor: 'primary.100' }}
+      cursor="pointer"
+    >
       <Td>{id}</Td>
       <Td>{name}</Td>
       <Td>{status}</Td>

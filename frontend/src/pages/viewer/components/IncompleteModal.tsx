@@ -29,10 +29,12 @@ const placeHolder =
 export default function IncompleteModal({
   email,
   id,
+  status,
   setStatus,
 }: {
   email: string
   id: string
+  status: ApplicationStatus
   setStatus: (applicationStatus: ApplicationStatus) => void
 }) {
   const formMethods = useForm({
@@ -54,8 +56,6 @@ export default function IncompleteModal({
     setStatus(ApplicationStatus.INCOMPLETE)
     setLoading(false)
     onClose()
-
-    // TODO: Take in the state params
   })
 
   const handleInputChange = (e: { target: { value: string } }) => {
@@ -65,7 +65,11 @@ export default function IncompleteModal({
 
   return (
     <>
-      <Button onClick={onOpen} variant="outline">
+      <Button
+        onClick={onOpen}
+        variant="outline"
+        disabled={status === ApplicationStatus.INCOMPLETE}
+      >
         Mark as incomplete
       </Button>
       <Modal

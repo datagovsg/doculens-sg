@@ -17,8 +17,10 @@ import { InlineMessage } from '@opengovsg/design-system-react'
 import { ApplicationStatus } from '~services/types'
 
 export default function CompleteModal({
+  status,
   setStatus,
 }: {
+  status: ApplicationStatus
   setStatus: (applicationStatus: ApplicationStatus) => void
 }) {
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -30,7 +32,12 @@ export default function CompleteModal({
 
   return (
     <>
-      <Button onClick={onOpen}>Mark as complete</Button>
+      <Button
+        onClick={onOpen}
+        disabled={status === ApplicationStatus.COMPLETED}
+      >
+        Mark as complete
+      </Button>
       <Modal
         closeOnOverlayClick={false}
         isOpen={isOpen}

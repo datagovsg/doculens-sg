@@ -1,5 +1,5 @@
 export enum ApplicationStatus {
-  COMPLETED = 'Completed',
+  COMPLETED = 'Complete',
   INCOMPLETE = 'Incomplete',
   SUBMITTED = 'Submitted',
 }

@@ -2,7 +2,7 @@
 // TODO: Setup a shared type library. Types are redundantly defined on BE as well
 
 export enum ApplicationStatus {
-  COMPLETED = 'Completed',
+  COMPLETED = 'Complete',
   INCOMPLETE = 'Incomplete',
   SUBMITTED = 'Submitted',
 }

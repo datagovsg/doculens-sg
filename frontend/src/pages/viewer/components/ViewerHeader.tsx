@@ -41,8 +41,9 @@ const ViewerHeader: FC<ViewerHeaderProps> = ({ application }) => {
                 cachedStatus === 'Incomplete' ? 'warning' : 'primary'
               }
               variant="subtle"
+              alignSelf="center"
             >
-              {cachedStatus.toLowerCase()}
+              {cachedStatus.toUpperCase()}
             </Badge>
           </>
         }
@@ -53,8 +54,12 @@ const ViewerHeader: FC<ViewerHeaderProps> = ({ application }) => {
                 email={application.email}
                 id={application.id}
                 setStatus={setCachedStatus}
+                status={cachedStatus}
               />
-              <CompleteModal setStatus={setCachedStatus} />
+              <CompleteModal
+                setStatus={setCachedStatus}
+                status={cachedStatus}
+              />
             </HStack>
           </HStack>
         }
