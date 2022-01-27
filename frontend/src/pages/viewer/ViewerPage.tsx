@@ -1,4 +1,6 @@
 import React, { ReactText, useEffect, useState } from 'react'
+import { AiOutlineFile } from 'react-icons/ai'
+import { useNavigate, useParams } from 'react-router-dom'
 import {
   Accordion,
   AccordionButton,
@@ -7,12 +9,13 @@ import {
   AccordionPanel,
   Box,
   BoxProps,
-  Button,
   CloseButton,
   Drawer,
   DrawerContent,
   Flex,
   FlexProps,
+  HStack,
+  Spinner,
   StackDivider,
   Text,
   useColorModeValue,
@@ -21,8 +24,13 @@ import {
 } from '@chakra-ui/react'
 import axios from 'axios'
 
-import AdminHeader from '~pages/viewer/AdminHeader'
+import useFetchSingular from '~hooks/useFetchSingular'
+import { retrieveApplicationById } from '~services/DoculensApi'
+import { ApplicationMetadata, Form } from '~services/types'
+import ConditionalWrapper from '~components/ConditionalWrapper'
+
 import AdminPDFconsole from '~pages/viewer/AdminPDFconsole'
+import ViewerHeader from '~pages/viewer/components/ViewerHeader'
 
 interface attachmentProps {
   name: string
@@ -48,6 +56,19 @@ const AttachmentProps: Array<attachmentProps> = [
 ]
 
 export default function SimpleSidebar() {
+  // Retrieve application on render
+
+  const params = useParams<{ id: string }>()
+  const navigate = useNavigate()
+
+  if (!params.id) {
+    navigate('/dashboard')
+  }
+
+  const [application, isLoading] = useFetchSingular<ApplicationMetadata>({
+    serviceFunction: retrieveApplicationById(params.id as string),
+  })
+
   const { isOpen, onClose } = useDisclosure()
   const [attachedFile, setFile] = useState<string>()
 
@@ -59,7 +80,11 @@ export default function SimpleSidebar() {
   }
 
   return (
-    <AdminHeader>
+    <ConditionalWrapper
+      condition={isLoading || application === null}
+      wrapper={() => <Spinner />}
+    >
+      <ViewerHeader application={application as ApplicationMetadata} />
       <SidebarContent
         setAttachedfile={setAttachedfile}
         onClose={() => onClose}
@@ -79,10 +104,10 @@ export default function SimpleSidebar() {
         </DrawerContent>
       </Drawer>
 
-      <Box ml={{ base: 0, md: 60 }} p="4">
+      <Box ml={{ base: 0, md: 60 }} p="4" marginTop={'72px'}>
         {attachedFile && <AdminPDFconsole attachedFile={attachedFile} />}
       </Box>
-    </AdminHeader>
+    </ConditionalWrapper>
   )
 }
 
@@ -104,11 +129,12 @@ const SidebarContent = ({
       w={{ base: 'full', md: 60 }}
       pos="fixed"
       h="full"
+      pt={'73px'}
       {...rest}
     >
-      <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
-        <Box pb="15" pt="5">
-          <Text fontSize="1.2rem">Submission Details</Text>
+      <Flex py="12px" alignItems="center" justifyContent="space-between">
+        <Box>
+          <Text textStyle="body1">Submission Details</Text>
           <CloseButton
             display={{ base: 'flex', md: 'none' }}
             onClick={onClose}
@@ -137,36 +163,29 @@ const NavItem = ({ attachmentID, children, setAttachedfile }: NavItemProps) => {
   return (
     <Accordion allowToggle>
       <VStack
-        divider={<StackDivider borderColor="gray.200" />}
+        divider={<StackDivider borderColor="neutral.300" />}
         spacing={4}
         align="stretch"
       >
         <AccordionItem>
           <h2>
             <AccordionButton>
-              <Box flex="1" textAlign="left">
+              <Box flex="1" textAlign="left" py="2px">
                 {children}
               </Box>
               <AccordionIcon />
             </AccordionButton>
           </h2>
 
-          <AccordionPanel pb={4}>
-            <Button
-              variant="link"
+          <AccordionPanel px={2}>
+            <HStack
+              py={'3px'}
               onClick={() => setAttachedfile(attachmentID)}
+              cursor="pointer"
             >
-              <Flex
-                align="right"
-                p="1"
-                mx="4"
-                borderRadius="lg"
-                role="group"
-                cursor="pointer"
-              >
-                Item 1
-              </Flex>
-            </Button>
+              <AiOutlineFile />
+              <Text>Item 1</Text>
+            </HStack>
           </AccordionPanel>
         </AccordionItem>
       </VStack>

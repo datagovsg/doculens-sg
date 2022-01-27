@@ -20,7 +20,7 @@ const PublicPage = lazy(() => import('~pages/public/PublicPage'))
 const ViewerPage = lazy(() => import('~pages/viewer/ViewerPage'))
 const BuilderPage = lazy(() => import('~pages/builder/BuilderPage'))
 
-const LoginPage = lazy(() => import('~features/auth/LoginPage'))
+const LoginPage = lazy(() => import('~pages/login/LoginPage'))
 
 // TODO: Add and implement dashboard route (p0)
 // TODO: Add and implement viewer route (p0)
@@ -41,7 +41,7 @@ export const AppRouter = (): JSX.Element => {
         />
 
         <Route
-          path={VIEWER_ROUTE}
+          path={`${VIEWER_ROUTE}/:id/`}
           element={<PrivateRoute element={<ViewerPage />} />}
         />
 
