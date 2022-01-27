@@ -17,6 +17,11 @@ export interface Form {
   updatedAt: string
 }
 
+export interface Attachment {
+  category: string
+  files: string[]
+}
+
 export interface ApplicationMetadata {
   id: string
   status: ApplicationStatus
@@ -24,6 +29,7 @@ export interface ApplicationMetadata {
   email: string
   // May want to consider using date-string for this once schema finalised
   createdAt: string
+  attachments?: Attachment[]
 }
 
 export interface MarkSubmissionRequestDto {

@@ -1,12 +1,13 @@
 import React, { lazy, Suspense } from 'react'
 import { Route, Routes } from 'react-router-dom'
 
+import { ViewerContextProvider } from '~/data/ViewerContext'
+
 import {
   BUILDER_ROUTE,
   DASHBOARD_ROUTE,
   LOGIN_ROUTE,
   PUBLIC_ROUTE,
-  RESPONSES_ROUTE,
   VIEWER_ROUTE,
 } from '~constants/routes'
 
@@ -42,7 +43,11 @@ export const AppRouter = (): JSX.Element => {
 
         <Route
           path={`${VIEWER_ROUTE}/:id/`}
-          element={<PrivateRoute element={<ViewerPage />} />}
+          element={
+            <ViewerContextProvider>
+              <PrivateRoute element={<ViewerPage />} />
+            </ViewerContextProvider>
+          }
         />
 
         <Route
