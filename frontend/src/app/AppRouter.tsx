@@ -70,6 +70,11 @@ export const AppRouter = (): JSX.Element => {
           element={<PublicRoute strict element={<LoginPage />} />}
         />
 
+        <Route
+          path={'/'}
+          element={<PublicRoute strict element={<LoginPage />} />}
+        />
+
         <Route path="*" element={<div>404 Not Found</div>} />
       </Routes>
     </Suspense>
