@@ -1,4 +1,4 @@
-import React, { ReactText, useState } from 'react'
+import React, { ReactText, useEffect, useState } from 'react'
 import { AiOutlineFile } from 'react-icons/ai'
 import { useNavigate, useParams } from 'react-router-dom'
 import {
@@ -22,6 +22,7 @@ import {
   useDisclosure,
   VStack,
 } from '@chakra-ui/react'
+import axios from 'axios'
 
 import useFetchSingular from '~hooks/useFetchSingular'
 import { retrieveApplicationById } from '~services/DoculensApi'
@@ -38,7 +39,7 @@ interface attachmentProps {
 const AttachmentProps: Array<attachmentProps> = [
   {
     name: 'Attachment Form',
-    attachmentID: '286a163021bade5eb765fc119d28c3de',
+    attachmentID: 'a5045f0658628970bc646b5142ae611e',
   },
   {
     name: 'Unemployed',
@@ -69,7 +70,13 @@ export default function SimpleSidebar() {
   })
 
   const { isOpen, onClose } = useDisclosure()
-  const [selectedAttachment, setSelectedAttachment] = useState('')
+  const [attachedFile, setFile] = useState<string>()
+
+  const setAttachedfile = (id) => {
+    axios
+      .get(`/api/attachment/${id}`, { responseType: 'arraybuffer' })
+      .then((r) => setFile(r.data))
+  }
 
   return (
     <ConditionalWrapper
@@ -78,7 +85,7 @@ export default function SimpleSidebar() {
     >
       <ViewerHeader application={application as ApplicationMetadata} />
       <SidebarContent
-        setSelectedAttachment={setSelectedAttachment}
+        setAttachedfile={setAttachedfile}
         onClose={() => onClose}
         display={{ base: 'none', md: 'block' }}
       />
@@ -92,15 +99,12 @@ export default function SimpleSidebar() {
         size="full"
       >
         <DrawerContent>
-          <SidebarContent
-            setSelectedAttachment={setSelectedAttachment}
-            onClose={onClose}
-          />
+          <SidebarContent setAttachedfile={setAttachedfile} onClose={onClose} />
         </DrawerContent>
       </Drawer>
 
       <Box ml={{ base: 0, md: 60 }} p="4" marginTop={'72px'}>
-        <AdminPDFconsole pdfIdentifier={selectedAttachment} />
+        {attachedFile && <AdminPDFconsole attachedFile={attachedFile} />}
       </Box>
     </ConditionalWrapper>
   )
@@ -108,11 +112,11 @@ export default function SimpleSidebar() {
 
 interface SidebarProps extends BoxProps {
   onClose: () => void
-  setSelectedAttachment: (attachment: string) => void
+  setAttachedfile: (attachment: string) => void
 }
 
 const SidebarContent = ({
-  setSelectedAttachment,
+  setAttachedfile,
   onClose,
   ...rest
 }: SidebarProps) => {
@@ -140,7 +144,7 @@ const SidebarContent = ({
         <NavItem
           key={link.attachmentID}
           attachmentID={link.attachmentID}
-          setSelectedAttachment={setSelectedAttachment}
+          setAttachedfile={setAttachedfile}
         >
           {link.name}
         </NavItem>
@@ -151,14 +155,10 @@ const SidebarContent = ({
 
 interface NavItemProps extends FlexProps {
   attachmentID: string
-  setSelectedAttachment: (attachment: string) => void
+  setAttachedfile: (attachment: string) => void
   children: ReactText
 }
-const NavItem = ({
-  attachmentID,
-  children,
-  setSelectedAttachment,
-}: NavItemProps) => {
+const NavItem = ({ attachmentID, children, setAttachedfile }: NavItemProps) => {
   return (
     <Accordion allowToggle>
       <VStack
@@ -179,7 +179,7 @@ const NavItem = ({
           <AccordionPanel px={2}>
             <HStack
               py={'3px'}
-              onClick={() => setSelectedAttachment(attachmentID)}
+              onClick={() => setAttachedfile(attachmentID)}
               cursor="pointer"
             >
               <AiOutlineFile />

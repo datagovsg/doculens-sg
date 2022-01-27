@@ -8,5 +8,6 @@ import { ConfigModule } from '../config/config.module'
   imports: [ConfigModule],
   controllers: [AttachmentController],
   providers: [AttachmentService],
+  exports: [AttachmentService],
 })
 export class AttachmentModule {}
