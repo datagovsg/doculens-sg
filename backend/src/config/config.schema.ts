@@ -45,13 +45,13 @@ export const schema: Schema<ConfigSchema> = {
   awsKeys: {
     aws_access_key: {
       doc: 'Bucket name for AWS',
-      env: 'AWS_ACCESS_KEY',
+      env: 'AWS_ACCESS_KEY_ID',
       format: String,
       default: '',
     },
     aws_secret_key: {
       doc: 'secret key for AWS',
-      env: 'AWS_SECRET_KEY',
+      env: 'AWS_SECRET_ACCESS_KEY',
       format: String,
       default: '',
     },

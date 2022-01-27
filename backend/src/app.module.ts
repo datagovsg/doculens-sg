@@ -13,6 +13,7 @@ import { MongooseModule } from '@nestjs/mongoose'
 import { SequelizeModule } from '@nestjs/sequelize'
 import { ConfigService } from './config/config.service'
 import { ApplicationsModule } from './applications/applications.module'
+import { TextractModule } from './textract/textract.module'
 
 @Module({
   imports: [
@@ -37,6 +38,7 @@ import { ApplicationsModule } from './applications/applications.module'
     AttachmentModule,
     FormsModule,
     ApplicationsModule,
+    TextractModule,
   ],
 })
 export class AppModule implements NestModule {
