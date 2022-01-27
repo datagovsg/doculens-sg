@@ -12,7 +12,7 @@ export const Card: FC<CardProps> = ({ children, heading }) => (
     p="40px"
     bg="white"
   >
-    <Text as="h2" textStyle="heading2" color="primary.600" mb={4}>
+    <Text as="h2" textStyle="heading2" color="primary.600">
       {heading}
     </Text>
     {children}

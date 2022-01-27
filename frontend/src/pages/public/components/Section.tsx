@@ -18,7 +18,7 @@ interface SectionProps extends ISection {
 export const Section: FC<SectionProps> = ({ heading, questions, ...rest }) => {
   return (
     <Card heading={heading}>
-      <VStack>
+      <VStack spacing={8}>
         {questions.map((question, index) => (
           <Question key={index} question={question} {...rest} />
         ))}

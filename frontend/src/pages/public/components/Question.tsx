@@ -11,11 +11,10 @@ import {
   NumberInput,
   NumberInputField,
   NumberInputStepper,
-  VStack,
 } from '@chakra-ui/react'
 import { YesNo } from '@opengovsg/design-system-react'
 
-import { Dropbox } from './Dropbox'
+import { Dropzone } from './Dropzone'
 
 export interface IQuestion {
   type: string
@@ -34,23 +33,33 @@ interface QuestionProps {
   question: IQuestion
   register: UseFormRegister<any>
   watch: UseFormWatch<any>
+  numFiles?: number
 }
 
-export const Question: FC<QuestionProps> = ({ question, register, watch }) => {
-  const getType = {
-    file: <Dropbox name={question.id} />,
+export const Question: FC<QuestionProps> = ({
+  question,
+  register,
+  watch,
+  numFiles,
+}) => {
+  const importFile = (files: any) => {
+    console.log(files)
+  }
+  const getInputField = {
+    file: <Dropzone numFiles={numFiles} onFileAccepted={importFile} />,
     'conditional-number': (
       <NumberInput
         defaultValue={0}
         {...register(question.id)}
-        onChange={(k, e) => {
+        onChange={(strVal, numVal) => {
           register(question.id).onChange({
-            target: { value: e, name: question.id },
+            target: { value: numVal, name: question.id },
             type: 'change',
           })
         }}
         min={0}
         max={20}
+        mt={4}
       >
         <NumberInputField />
         <NumberInputStepper>
@@ -59,26 +68,32 @@ export const Question: FC<QuestionProps> = ({ question, register, watch }) => {
         </NumberInputStepper>
       </NumberInput>
     ),
-    'conditional-boolean': <YesNo name={question.id} />,
-  }[question.type] || <Input type={question.type} {...register(question.id)} />
+    'conditional-boolean': <YesNo name={question.id} mt={3} />,
+  }[question.type] || (
+    <Input
+      type={question.type}
+      {...register(question.id)}
+      placeholder={question.placeholder}
+      mt={3}
+    />
+  )
 
   const watchConditional = watch(question.id)
 
   return (
-    <FormControl isRequired={question.required}>
-      <FormLabel>{question.label}</FormLabel>
+    <FormControl mt={8} isRequired={question.required}>
+      <FormLabel mb={0}>{question.label}</FormLabel>
       {question.helpers?.map((helper, index) => (
-        <FormHelperText key={index}>
-          {helper.helpertext}
+        <FormHelperText mt={0} key={index}>
+          {helper.helpertext}{' '}
           {helper.helperurl && (
             <Link isExternal href={helper.helperurl}>
-              {' '}
               here
             </Link>
           )}
         </FormHelperText>
       ))}
-      {getType}
+      {getInputField}
       {watchConditional > 0 &&
         question.subquestions?.map((subquestion, index) => (
           <Question
@@ -86,6 +101,7 @@ export const Question: FC<QuestionProps> = ({ question, register, watch }) => {
             question={subquestion}
             register={register}
             watch={watch}
+            numFiles={watchConditional}
           />
         ))}
     </FormControl>

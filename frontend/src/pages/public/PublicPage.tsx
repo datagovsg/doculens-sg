@@ -1,8 +1,17 @@
 import { FC } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import { VStack } from '@chakra-ui/react'
+import {
+  Button,
+  Divider,
+  HStack,
+  Image,
+  Link,
+  Text,
+  VStack,
+} from '@chakra-ui/react'
 
-//import { GovtMasthead } from '@opengovsg/design-system-react' // Pending design-system-react 0.0.6 release
+import DoculensLogo from '~assets/doculens-logo.svg'
+
 import { Hero, Instructions, ISection, Section } from './components'
 import { body, estmins, title } from './form.json'
 
@@ -28,11 +37,10 @@ const PublicPage: FC = () => {
 
   return (
     <>
-      {/* <GovtMasthead /> */}
       <Hero estmins={estmins} title={title} />
-      <VStack py="84px" spacing={6}>
-        <Instructions />
-        <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <VStack py="84px" spacing={6}>
+          <Instructions />
           {(body as ISection[]).map((section, index) => {
             return (
               <Section
@@ -44,8 +52,24 @@ const PublicPage: FC = () => {
               />
             )
           })}
-        </form>
-      </VStack>
+          <Button w={{ base: '90vw', md: '80vw' }} maxW={{ md: '912px' }}>
+            Submit now
+          </Button>
+          <Divider w="240px" borderColor="neutral.400" />
+          <Text textStyle="caption1" color="secondary.400">
+            Created with
+          </Text>
+          <Image htmlWidth="144px" src={DoculensLogo} />
+          <HStack spacing={6}>
+            <Link textStyle="caption1" color="secondary.400">
+              Terms of Use
+            </Link>
+            <Link textStyle="caption1" color="secondary.400">
+              Privacy Policy
+            </Link>
+          </HStack>
+        </VStack>
+      </form>
     </>
   )
 }
