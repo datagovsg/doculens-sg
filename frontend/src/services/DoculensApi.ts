@@ -17,11 +17,21 @@ export const retrieveFormById = (formId: string): Promise<Form> => {
     .get<Form>(`/forms/${formId}`)
     .then((response) => response.data)
 }
+
+// ADMIN Retrieveal of forms
 export const retrieveApplicationsByFormId = (
   formId: string,
 ): Promise<ApplicationMetadata[]> => {
   return baseConfig
     .get<ApplicationMetadata[]>(`/applications/find?formId=${formId}`)
+    .then((response) => response.data)
+}
+
+export const retrieveApplicationById = (
+  id: string,
+): Promise<ApplicationMetadata> => {
+  return baseConfig
+    .get<ApplicationMetadata>(`/applications/${id}`)
     .then((response) => response.data)
 }
 

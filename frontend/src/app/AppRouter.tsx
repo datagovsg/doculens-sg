@@ -41,7 +41,7 @@ export const AppRouter = (): JSX.Element => {
         />
 
         <Route
-          path={VIEWER_ROUTE}
+          path={`${VIEWER_ROUTE}/:id/`}
           element={<PrivateRoute element={<ViewerPage />} />}
         />
 

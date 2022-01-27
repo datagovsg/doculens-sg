@@ -2,13 +2,18 @@ import { FC, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Button, HStack, Text } from '@chakra-ui/react'
 
+import { ApplicationMetadata } from '~services/types'
 import { NavbarBack } from '~components/Navbar/NavbarBack'
 import { NavbarContainer } from '~components/Navbar/NavbarContainer'
 
 import CompleteModal from '~pages/viewer/components/CompleteModal'
 import IncompleteModal from '~pages/viewer/components/IncompleteModal'
 
-const ViewerHeader: FC = () => {
+interface ViewerHeaderProps {
+  application: ApplicationMetadata
+}
+
+const ViewerHeader: FC<ViewerHeaderProps> = ({ application }) => {
   const navigate = useNavigate()
 
   const handleReturnToSubmissions = () => {
@@ -26,13 +31,13 @@ const ViewerHeader: FC = () => {
         }
         centerElement={
           <Text textStyle="heading2" textColor="secondary.500">
-            Tan Tock Seng
+            {application.name}
           </Text>
         }
         rightElement={
           <HStack>
             <HStack spacing={2} pr={2}>
-              <IncompleteModal />
+              <IncompleteModal email={application.email} id={application.id} />
               <CompleteModal />
             </HStack>
           </HStack>

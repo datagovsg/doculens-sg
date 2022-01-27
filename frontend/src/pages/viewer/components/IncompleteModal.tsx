@@ -19,20 +19,38 @@ import {
 } from '@chakra-ui/react'
 import { InlineMessage } from '@opengovsg/design-system-react'
 
+import { updateApplicationStatus } from '~services/DoculensApi'
+import { ApplicationStatus } from '~services/types'
 import FormInput from '~components/FormInput'
 
 const placeHolder =
   'Dear Sir or Madam, \n\rWe noted that the following Doucments XXX and XXX are missing'
 
-export default function IncompleteModal() {
+export default function IncompleteModal({
+  email,
+  id,
+}: {
+  email: string
+  id: string
+}) {
   const formMethods = useForm({
     mode: 'onChange',
   })
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [contentValue, setContentValue] = useState('')
+  const [loading, setLoading] = useState(false)
 
-  const onSubmit = formMethods.handleSubmit((data) => {
-    console.log('Received data')
+  const onSubmit = formMethods.handleSubmit(async (data) => {
+    setLoading(true)
+    await updateApplicationStatus(id, {
+      status: ApplicationStatus.INCOMPLETE,
+      emailParams: {
+        subject: data.subject,
+        content: contentValue,
+      },
+    })
+    setLoading(false)
+    onClose()
 
     // TODO: Take in the state params
   })
@@ -125,6 +143,7 @@ export default function IncompleteModal() {
               type="submit"
               backgroundColor="secondary.500"
               onClick={onSubmit}
+              isLoading={loading}
             >
               Send Email
             </Button>

@@ -1,5 +1,6 @@
 import React, { ReactText, useState } from 'react'
 import { AiOutlineFile } from 'react-icons/ai'
+import { useNavigate, useParams } from 'react-router-dom'
 import {
   Accordion,
   AccordionButton,
@@ -8,20 +9,24 @@ import {
   AccordionPanel,
   Box,
   BoxProps,
-  Button,
   CloseButton,
   Drawer,
   DrawerContent,
   Flex,
   FlexProps,
   HStack,
-  Link,
+  Spinner,
   StackDivider,
   Text,
   useColorModeValue,
   useDisclosure,
   VStack,
 } from '@chakra-ui/react'
+
+import useFetchSingular from '~hooks/useFetchSingular'
+import { retrieveApplicationById } from '~services/DoculensApi'
+import { ApplicationMetadata, Form } from '~services/types'
+import ConditionalWrapper from '~components/ConditionalWrapper'
 
 import AdminPDFconsole from '~pages/viewer/AdminPDFconsole'
 import ViewerHeader from '~pages/viewer/components/ViewerHeader'
@@ -50,11 +55,28 @@ const AttachmentProps: Array<attachmentProps> = [
 ]
 
 export default function SimpleSidebar() {
+  // Retrieve application on render
+
+  const params = useParams<{ id: string }>()
+  const navigate = useNavigate()
+
+  if (!params.id) {
+    navigate('/dashboard')
+  }
+
+  const [application, isLoading] = useFetchSingular<ApplicationMetadata>({
+    serviceFunction: retrieveApplicationById(params.id as string),
+  })
+
   const { isOpen, onClose } = useDisclosure()
   const [selectedAttachment, setSelectedAttachment] = useState('')
+
   return (
-    <>
-      <ViewerHeader />
+    <ConditionalWrapper
+      condition={isLoading || application === null}
+      wrapper={() => <Spinner />}
+    >
+      <ViewerHeader application={application as ApplicationMetadata} />
       <SidebarContent
         setSelectedAttachment={setSelectedAttachment}
         onClose={() => onClose}
@@ -80,7 +102,7 @@ export default function SimpleSidebar() {
       <Box ml={{ base: 0, md: 60 }} p="4" marginTop={'72px'}>
         <AdminPDFconsole pdfIdentifier={selectedAttachment} />
       </Box>
-    </>
+    </ConditionalWrapper>
   )
 }
 
