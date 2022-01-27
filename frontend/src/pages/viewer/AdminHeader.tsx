@@ -13,7 +13,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react'
 
-import IncompleteModal from '~pages/viewer/IncompleteModal'
+import IncompleteModal from '~pages/viewer/components/IncompleteModal'
 
 const Links = ['Back To List']
 
