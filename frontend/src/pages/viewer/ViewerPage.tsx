@@ -31,6 +31,7 @@ import { ApplicationMetadata, Attachment } from '~services/types'
 import ConditionalWrapper from '~components/ConditionalWrapper'
 
 import AdminPDFconsole from '~pages/viewer/AdminPDFconsole'
+import { SubmissionMetadataView } from '~pages/viewer/components/SubmissionMetadataView'
 import ViewerHeader from '~pages/viewer/components/ViewerHeader'
 
 export default function SimpleSidebar() {
@@ -49,10 +50,15 @@ export default function SimpleSidebar() {
 
   const { isOpen, onClose } = useDisclosure()
 
-  const [attachedFile, setFile] = useState<string>()
+  const [attachedFile, setFile] = useState<string | null>()
   const [id, setId] = useState('')
 
   const setAttachedfile = (id) => {
+    if (!id) {
+      console.log('not id detected')
+      return setFile(null)
+    }
+
     axios
       .get(`/api/attachment/${id}`, { responseType: 'arraybuffer' })
       .then((r) => {
@@ -92,13 +98,17 @@ export default function SimpleSidebar() {
       </Drawer>
 
       <Box ml={{ base: 0, md: 60 }} marginTop={'72px'}>
-        {attachedFile && (
+        {attachedFile ? (
           <>
             <Flex align={'center'} justify={'center'} backgroundColor="#EEE">
               <Text textStyle="viewer1">{id}</Text>
             </Flex>
             <AdminPDFconsole attachedFile={attachedFile} />
           </>
+        ) : (
+          <SubmissionMetadataView
+            application={application as ApplicationMetadata}
+          />
         )}
       </Box>
     </ConditionalWrapper>
@@ -128,7 +138,12 @@ const SidebarContent = ({
       pt={'73px'}
       {...rest}
     >
-      <Flex py="12px" alignItems="center" justifyContent="space-between">
+      <Flex
+        py="12px"
+        alignItems="center"
+        justifyContent="space-between"
+        onClick={() => setAttachedfile('')}
+      >
         <Box>
           <Text textStyle="body1">Submission Details</Text>
           <CloseButton
