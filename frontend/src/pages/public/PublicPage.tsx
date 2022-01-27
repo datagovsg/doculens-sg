@@ -1,20 +1,50 @@
-import React from 'react'
-import { VStack } from '@chakra-ui/layout'
+import { FC } from 'react'
+import { SubmitHandler, useForm } from 'react-hook-form'
+import { VStack } from '@chakra-ui/react'
 
 //import { GovtMasthead } from '@opengovsg/design-system-react' // Pending design-system-react 0.0.6 release
-import { Hero, Instructions } from './components'
+import { Hero, Instructions, Section } from './components'
+import { body, estmins, title } from './form.json'
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface PublicPageProps {}
+export interface FormValues {
+  attachments: Array<{
+    id: string
+    files: Array<string>
+  }>
+  responses: Array<{
+    id: string
+    value: string
+  }>
+}
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-const PublicPage = ({}: PublicPageProps) => {
+const PublicPage: FC = () => {
+  const {
+    register,
+    watch,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormValues>()
+  const onSubmit: SubmitHandler<FormValues> = (data) => console.log(data)
+
   return (
     <>
       {/* <GovtMasthead /> */}
-      <Hero />
-      <VStack py="84px" spacing={2}>
+      <Hero estmins={estmins} title={title} />
+      <VStack py="84px" spacing={6}>
         <Instructions />
+        <form onSubmit={handleSubmit(onSubmit)}>
+          {body.map((section, index) => {
+            return (
+              <Section
+                key={index}
+                heading={section.heading}
+                questions={section.questions}
+                register={register}
+                watch={watch}
+              />
+            )
+          })}
+        </form>
       </VStack>
     </>
   )

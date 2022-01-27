@@ -1,16 +1,24 @@
-import React, { FC } from 'react'
+import { FC } from 'react'
+import { Text } from '@chakra-ui/react'
 import { Attachment } from '@opengovsg/design-system-react'
 
-type Props = {
-  numFiles: number
+type DropboxProps = {
+  numFiles?: number
+  name: string
 }
 
-const Dropbox = (props: Props) => {
+export const Dropbox: FC<DropboxProps> = ({ numFiles, name }) => {
   return (
     <>
-      <Attachment maxSize={20971520} name="Test-input" />
+      <Attachment maxSize={20971520} name={name} />
+      <Text>
+        {numFiles && (
+          <b>
+            Please attach {numFiles} file{numFiles > 1 && 's'}.{' '}
+          </b>
+        )}
+        Maximum file size: 20 MB
+      </Text>
     </>
   )
 }
-
-export default Dropbox

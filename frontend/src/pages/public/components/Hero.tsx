@@ -6,9 +6,12 @@ import { Button } from '@opengovsg/design-system-react'
 import { useAuth } from '~features/auth'
 import { LOGGED_IN_KEY, useLocalStorage } from '~features/localStorage'
 
-import { estmins, title } from '../form.json'
+type HeroProps = {
+  estmins: number
+  title: string
+}
 
-export const Hero: FC = () => {
+export const Hero: FC<HeroProps> = ({ estmins, title }) => {
   const { isAuthenticated, email } = useAuth()
 
   const [, setIsAuthenticated] = useLocalStorage<boolean>(LOGGED_IN_KEY)

@@ -40,7 +40,6 @@ export const Instructions: FC = () => {
           as={ordered ? 'ol' : 'ul'}
           styleType={styleType}
           pl={4}
-          {...props}
         >
           {children}
         </Element>
@@ -60,7 +59,6 @@ export const Instructions: FC = () => {
           as={ordered ? 'ol' : 'ul'}
           styleType={styleType}
           pl={4}
-          {...props}
         >
           {children}
         </Element>
@@ -75,10 +73,7 @@ export const Instructions: FC = () => {
   }, [])
 
   return (
-    <Card>
-      <Text as="h2" textStyle="heading2" color="primary.600" mb={4}>
-        Instructions
-      </Text>
+    <Card heading="Instructions">
       <ReactMarkdown
         components={ChakraUIRenderer(theme)}
         children={markdown}
