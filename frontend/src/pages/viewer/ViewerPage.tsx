@@ -73,9 +73,8 @@ export default function SimpleSidebar() {
   const [attachedFile, setFile] = useState<string>()
 
   const setAttachedfile = (id) => {
-    console.log('USE EFFECT activated')
     axios
-      .get(`./api/attachment/${id}`, { responseType: 'arraybuffer' })
+      .get(`/api/attachment/${id}`, { responseType: 'arraybuffer' })
       .then((r) => setFile(r.data))
   }
 

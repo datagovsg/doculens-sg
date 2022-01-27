@@ -54,7 +54,6 @@ import { join } from 'path'
     AttachmentModule,
     FormsModule,
     ApplicationsModule,
-    TextractModule,
   ],
 })
 export class AppModule implements NestModule {
