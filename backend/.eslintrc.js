@@ -22,6 +22,7 @@ module.exports = {
   rules: {
     'no-console': 'warn',
     '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+    '@typescript-eslint/ban-ts-comment': 'off',
     '@typescript-eslint/member-delimiter-style': [
       'error',
       {

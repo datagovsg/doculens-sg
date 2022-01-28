@@ -24,7 +24,7 @@ export const SelectorModal: FC = () => {
         <VStack>
           <Center pt="16px" pb="32px">
             <HStack spacing="32px">
-              <Link to="/dashboard/create/new">
+              <Link to="/dashboard/create/new/build">
                 <Button leftIcon={<BiPlus />} colorScheme="primary">
                   Create from scratch
                 </Button>

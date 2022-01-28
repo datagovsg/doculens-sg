@@ -1,15 +1,64 @@
-import { Controller, Get, Post, Body, Param, Query } from '@nestjs/common'
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Query,
+  NotFoundException,
+} from '@nestjs/common'
 import { ApplicationsService } from './applications.service'
 import { CreateApplicationDto } from './dto/create-application.dto'
 import { FormsService } from '../forms/forms.service'
 import { Application } from './schemas/application.schema'
+import { MailerService } from '../mailer/mailer.service'
+import { MarkSubmissionRequestDto, MarkSubmissionResponse } from './types'
 
 @Controller('applications')
 export class ApplicationsController {
   constructor(
     private readonly applicationsService: ApplicationsService,
-    private readonly formsService: FormsService
+    private readonly formsService: FormsService,
+    private readonly mailService: MailerService
   ) {}
+
+  @Post(':id/markStatus')
+  async sendEmailToApplicant(
+    @Body() markSubmissionRequest: MarkSubmissionRequestDto,
+    @Param('id') id: string
+  ): Promise<MarkSubmissionResponse> {
+    const applicantEmail = (
+      await this.applicationsService.updateApplicationStatus(
+        id,
+        markSubmissionRequest.status
+      )
+    ).email
+
+    if (!applicantEmail && markSubmissionRequest.emailParams) {
+      throw new NotFoundException('applicant email not found')
+    }
+
+    if (
+      markSubmissionRequest.status === 'Incomplete' &&
+      markSubmissionRequest.emailParams
+    ) {
+      // TODO: Consider fire and forget
+      await this.mailService.sendMail(
+        {
+          subject: markSubmissionRequest.emailParams?.subject,
+          to: applicantEmail,
+        },
+        markSubmissionRequest.emailParams?.content
+      )
+    }
+
+    return {
+      status: 'success',
+      ...(markSubmissionRequest.status === 'Incomplete'
+        ? { email: applicantEmail }
+        : undefined),
+    }
+  }
 
   // TODO: Resolve this anti pattern. Ideally formId shouldn't be a param
   @Post(':formId')

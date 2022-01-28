@@ -28,7 +28,7 @@ export const PublicRoute = ({
   const { isAuthenticated } = useAuth()
 
   if (isAuthenticated && strict) {
-    return <Navigate to={state?.from.pathname ?? DASHBOARD_ROUTE} replace />
+    return <Navigate to={`/${DASHBOARD_ROUTE}`} replace />
   }
 
   return element

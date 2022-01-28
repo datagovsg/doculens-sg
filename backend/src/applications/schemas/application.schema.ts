@@ -2,14 +2,9 @@ import { Document, ObjectId } from 'mongoose'
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
 import * as mongoose from 'mongoose'
 import { Form } from '../../forms/schemas/form.schema'
+import { ApplicationStatus } from '../types'
 
 export type ApplicationDocument = Application & Document
-
-enum ApplicationStatus {
-  COMPLETED = 'Completed',
-  INCOMPLETE = 'Completed',
-  SUBMITTED = 'Submitted',
-}
 
 @Schema({
   timestamps: true,

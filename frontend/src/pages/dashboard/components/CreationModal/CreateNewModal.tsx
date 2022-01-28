@@ -16,7 +16,7 @@ const CreateNewModal: FC<CreateNewModalProps> = ({ onClose }) => {
       <ModalContent py="16px">
         <Routes>
           <Route
-            path="new"
+            path="new/build"
             element={<CreateNewApplicationModal onClose={onClose} />}
           />
           <Route path="*" element={<SelectorModal />} />

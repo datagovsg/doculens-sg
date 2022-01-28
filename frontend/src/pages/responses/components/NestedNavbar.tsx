@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { BiCog, BiShow } from 'react-icons/all'
 import { useNavigate, useParams } from 'react-router-dom'
 import {
@@ -10,6 +10,7 @@ import {
   useMultiStyleConfig,
 } from '@chakra-ui/react'
 
+import { retrieveFormById } from '~services/DoculensApi'
 import { NavbarBack } from '~components/Navbar/NavbarBack'
 import { NavbarContainer } from '~components/Navbar/NavbarContainer'
 import { NavbarTabs } from '~components/Navbar/NavbarTabs'
@@ -24,16 +25,33 @@ const NestedNavbar: FC = () => {
   const params = useParams<{ id: string; action: DashboardSection }>()
   const navStyles = useMultiStyleConfig('NavbarComponents', {})
 
+  const [formName, setFormName] = useState<string>('...')
+
+  // TODO: Switch to context if the use case grows. This is very hacky
+  useEffect(() => {
+    retrieveFormName(params.id)
+  }, [params.id])
+
   if (!params || !params.id || !params.action) {
     console.error('invalid route matching detected. Replace with redirect ')
     throw Error('Bad params error')
   }
+
+  // TODO: Use a context hook once there is sufficient use case for it
+  const retrieveFormName = async (id: string | undefined) => {
+    if (!id) {
+      setFormName('...')
+    } else {
+      setFormName((await retrieveFormById(id as string)).title)
+    }
+  }
+
   const index = ROUTES.indexOf(params.action) || 0
 
   // Handlers
 
-  const handleReturnBack = () => {
-    navigate(-1)
+  const handleReturnToDashboard = () => {
+    navigate({ pathname: `/dashboard` })
   }
 
   const handleTabChange = (index: number) => {
@@ -56,7 +74,7 @@ const NestedNavbar: FC = () => {
     <>
       <NavbarContainer
         leftElement={
-          <NavbarBack label={'placeholder'} handleClick={handleReturnBack} />
+          <NavbarBack label={formName} handleClick={handleReturnToDashboard} />
         }
         centerElement={
           <NavbarTabs

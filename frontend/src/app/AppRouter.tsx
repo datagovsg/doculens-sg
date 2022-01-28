@@ -1,12 +1,13 @@
 import React, { lazy, Suspense } from 'react'
 import { Route, Routes } from 'react-router-dom'
 
+import { ViewerContextProvider } from '~/data/ViewerContext'
+
 import {
   BUILDER_ROUTE,
   DASHBOARD_ROUTE,
   LOGIN_ROUTE,
   PUBLIC_ROUTE,
-  RESPONSES_ROUTE,
   VIEWER_ROUTE,
 } from '~constants/routes'
 
@@ -20,7 +21,7 @@ const PublicPage = lazy(() => import('~pages/public/PublicPage'))
 const ViewerPage = lazy(() => import('~pages/viewer/ViewerPage'))
 const BuilderPage = lazy(() => import('~pages/builder/BuilderPage'))
 
-const LoginPage = lazy(() => import('~features/auth/LoginPage'))
+const LoginPage = lazy(() => import('~pages/login/LoginPage'))
 
 // TODO: Add and implement dashboard route (p0)
 // TODO: Add and implement viewer route (p0)
@@ -41,8 +42,12 @@ export const AppRouter = (): JSX.Element => {
         />
 
         <Route
-          path={VIEWER_ROUTE}
-          element={<PrivateRoute element={<ViewerPage />} />}
+          path={`${VIEWER_ROUTE}/:id/`}
+          element={
+            <ViewerContextProvider>
+              <PrivateRoute element={<ViewerPage />} />
+            </ViewerContextProvider>
+          }
         />
 
         <Route
@@ -62,6 +67,11 @@ export const AppRouter = (): JSX.Element => {
 
         <Route
           path={LOGIN_ROUTE}
+          element={<PublicRoute strict element={<LoginPage />} />}
+        />
+
+        <Route
+          path={'/'}
           element={<PublicRoute strict element={<LoginPage />} />}
         />
 
