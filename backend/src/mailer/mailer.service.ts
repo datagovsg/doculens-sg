@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { Logger } from '@nestjs/common'
 import nodemailer, { SendMailOptions, Transporter } from 'nodemailer'
+import { SES } from 'aws-sdk'
 
 import { ConfigService } from '../config/config.service'
 import { htmlString } from './templates/standard'
@@ -13,12 +14,11 @@ export class MailerService {
     'mailConfig.host'
   )
     ? nodemailer.createTransport({
-        host: this.config.get('mailConfig.host'),
-        port: this.config.get('mailConfig.port'),
-        auth: {
-          user: this.config.get('mailConfig.user'),
-          pass: this.config.get('mailConfig.password'),
-        },
+        SES: new SES({
+          accessKeyId: this.config.get('awsKeys.aws_access_key'),
+          secretAccessKey: this.config.get('awsKeys.aws_secret_key'),
+          region: this.config.get('awsRegion'),
+        }),
       })
     : {
         sendMail: (options: SendMailOptions) => {
