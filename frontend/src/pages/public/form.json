@@ -27,7 +27,7 @@
           "type": "tel",
           "label": "Applicant’s Mobile Number",
           "id": "Mobile",
-          "required": true,
+          "required": false,
           "placeholder": "0000 0000"
         },
         {

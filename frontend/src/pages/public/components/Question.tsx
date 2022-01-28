@@ -68,7 +68,21 @@ export const Question: FC<QuestionProps> = ({
         </NumberInputStepper>
       </NumberInput>
     ),
-    'conditional-boolean': <YesNo name={question.id} mt={3} />,
+    'conditional-boolean': (
+      <YesNo
+        mt={3}
+        {...register(question.id)}
+        onChange={(val) => {
+          register(question.id).onChange({
+            target: {
+              value: val === 'yes' ? 1 : 0,
+              name: question.id,
+            },
+            type: 'change',
+          })
+        }}
+      />
+    ),
   }[question.type] || (
     <Input
       type={question.type}
