@@ -75,7 +75,7 @@ export const Question: FC<QuestionProps> = ({
         onChange={(val) => {
           register(question.id).onChange({
             target: {
-              value: val === 'yes' ? 1 : 0,
+              value: val === 'yes' ? 'show' : 0,
               name: question.id,
             },
             type: 'change',
@@ -108,14 +108,16 @@ export const Question: FC<QuestionProps> = ({
         </FormHelperText>
       ))}
       {getInputField}
-      {watchConditional > 0 &&
+      {(watchConditional > 0 || watchConditional === 'show') &&
         question.subquestions?.map((subquestion, index) => (
           <Question
             key={index}
             question={subquestion}
             register={register}
             watch={watch}
-            numFiles={watchConditional}
+            numFiles={
+              watchConditional === 'show' ? undefined : watchConditional
+            }
           />
         ))}
     </FormControl>
