@@ -4,6 +4,7 @@ import { InjectModel } from '@nestjs/mongoose'
 import { Model } from 'mongoose'
 import { Application, ApplicationDocument } from './schemas/application.schema'
 import { Form } from '../forms/schemas/form.schema'
+import { UpdatableStatus } from './types'
 
 @Injectable()
 export class ApplicationsService {
@@ -46,6 +47,23 @@ export class ApplicationsService {
     }
 
     return applications
+  }
+
+  async updateApplicationStatus(
+    id: string,
+    status: UpdatableStatus
+  ): Promise<Application> {
+    const application = await this.applicationModel
+      .findByIdAndUpdate(id, {
+        status,
+      })
+      .setOptions({ new: true })
+
+    if (!application) {
+      throw new NotFoundException()
+    }
+
+    return application
   }
 
   // TODO: Figure out repercussions of implementing hard deletion of application

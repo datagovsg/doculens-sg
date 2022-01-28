@@ -14,6 +14,13 @@ export interface ConfigSchema {
     aws_access_key: string
     aws_secret_key: string
   }
+  mailConfig: {
+    host: string
+    port: number
+    user: string
+    password: string
+    temporarySender: string
+  }
   otp: {
     expiry: number
     secret: string
@@ -40,18 +47,18 @@ export const schema: Schema<ConfigSchema> = {
     doc: 'The AWS region for SES. Optional, logs mail to console if absent',
     env: 'AWS_REGION',
     format: '*',
-    default: '',
+    default: 'ap-southeast-1',
   },
   awsKeys: {
     aws_access_key: {
       doc: 'Bucket name for AWS',
-      env: 'AWS_ACCESS_KEY',
+      env: 'AWS_ACCESS_KEY_ID',
       format: String,
       default: '',
     },
     aws_secret_key: {
       doc: 'secret key for AWS',
-      env: 'AWS_SECRET_KEY',
+      env: 'AWS_SECRET_ACCESS_KEY',
       format: String,
       default: '',
     },
@@ -75,6 +82,35 @@ export const schema: Schema<ConfigSchema> = {
     env: 'MONGODB_URL',
     format: String,
     default: '',
+  },
+  mailConfig: {
+    host: {
+      doc: 'The SMTP host to be used',
+      env: 'SES_SMTP_HOST',
+      default: '',
+      format: String,
+    },
+    port: {
+      doc: 'The SMTP port to be used',
+      env: 'SES_SMTP_PORT',
+      default: 25,
+      format: 'int',
+    },
+    user: {
+      doc: 'The SMTP user to be used',
+      env: 'SES_SMTP_USER',
+      default: '',
+    },
+    password: {
+      doc: 'The SMTP password to be used',
+      env: 'SES_SMTP_PASSWORD',
+      default: '',
+    },
+    temporarySender: {
+      doc: 'Temporary sender for SES used',
+      env: 'DOCULENS_EMAIL_SENDER',
+      default: '',
+    },
   },
   session: {
     name: {

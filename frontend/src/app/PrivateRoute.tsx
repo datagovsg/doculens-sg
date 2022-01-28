@@ -27,7 +27,7 @@ export const PrivateRoute = ({
   return isAuthenticated ? (
     <>
       <Navbar />
-      <Container pt="80px" minW="100vw">
+      <Container pt="73px" minW="100vw">
         {element}
       </Container>
     </>

@@ -1,0 +1,254 @@
+{
+  "title": "MOE Financial Assistance Scheme",
+  "estmins": 10,
+  "body": [
+    {
+      "heading": "Section I: Personal Particulars",
+      "questions": [
+        {
+          "type": "text",
+          "label": "Applicant’s Name",
+          "id": "Name",
+          "required": true,
+          "helpers": [
+            {
+              "helpertext": "Only applications submitted by parents or legal guardians of students will be entertained."
+            }
+          ]
+        },
+        {
+          "type": "email",
+          "label": "Applicant’s Email",
+          "id": "Email",
+          "required": true,
+          "placeholder": "me@example.com"
+        },
+        {
+          "type": "tel",
+          "label": "Applicant’s Mobile Number",
+          "id": "Mobile",
+          "required": false,
+          "placeholder": "0000 0000"
+        },
+        {
+          "type": "text",
+          "label": "Student’s Name(s)",
+          "id": "Students",
+          "required": true,
+          "helpers": [
+            {
+              "helpertext": "If you are applying on behalf of more than 1 student, separate their names with a comma."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "Section II: Application Form",
+      "questions": [
+        {
+          "type": "file",
+          "label": "Application Form",
+          "id": "Application",
+          "required": true,
+          "helpers": [
+            {
+              "helpertext": "You may download the application form",
+              "helperurl": "https://www.moe.gov.sg/financial-matters/-/media/2a3bf498a09a4e7b9088d1a60f761c67.ashx"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "Section III: Unemployed Household Members under 62 years old",
+      "questions": [
+        {
+          "type": "conditional-number",
+          "label": "How many household members are unemployed and below age 62?",
+          "id": "Unemployed",
+          "required": true,
+          "subquestions": [
+            {
+              "type": "file",
+              "label": "Completed Declaration of Unemployment",
+              "id": "Declaration",
+              "required": true,
+              "helpers": [
+                {
+                  "helpertext": "Download and complete the declaration of unemployment form",
+                  "helperurl": "https://www.moe.gov.sg/financial-matters/-/media/2a3bf498a09a4e7b9088d1a60f761c67.ashx"
+                }
+              ]
+            },
+            {
+              "type": "file",
+              "label": "CPF Transaction Statement or Contribution History for past 12 months",
+              "id": "CPF",
+              "required": true,
+              "helpers": [
+                {
+                  "helpertext": "Find out how to obtain your CPF Contribution History",
+                  "helperurl": "https://www.cpf.gov.sg/member/faq/general-information---useful-tips/statement-of-account-and-records/check-my-cpf-account-balances-contribution-and-transaction"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "Section IV: Self-employed Household Members",
+      "questions": [
+        {
+          "type": "conditional-number",
+          "label": "How many household members are self-employed?",
+          "id": "Self-employed",
+          "required": true,
+          "subquestions": [
+            {
+              "type": "file",
+              "label": "Latest Income Tax Notice of Assessment OR Declaration of Self-Employment if tax not required",
+              "id": "IRAS",
+              "required": true,
+              "helpers": [
+                {
+                  "helpertext": "Find out how to obtain your Latest Income Tax Notice of Assessment",
+                  "helperurl": ""
+                },
+                {
+                  "helpertext": "or the self-employment declaration form",
+                  "helperurl": "https://www.moe.gov.sg/financial-matters/-/media/2a3bf498a09a4e7b9088d1a60f761c67.ashx"
+                }
+              ]
+            },
+            {
+              "type": "file",
+              "label": "CPF Transaction Statement or Contribution History for past 12 months",
+              "id": "CPF",
+              "required": true,
+              "helpers": [
+                {
+                  "helpertext": "Find out how to obtain your CPF Contribution History",
+                  "helperurl": "https://www.cpf.gov.sg/member/faq/general-information---useful-tips/statement-of-account-and-records/check-my-cpf-account-balances-contribution-and-transaction"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "Section V: Employed Household Members",
+      "questions": [
+        {
+          "type": "conditional-number",
+          "label": "How many household members are employed?",
+          "id": "Employed",
+          "required": true,
+          "subquestions": [
+            {
+              "type": "file",
+              "label": "Latest Income Tax Notice of Assessment",
+              "id": "IRAS",
+              "required": true,
+              "helpers": [
+                {
+                  "helpertext": "Find out how to obtain your Latest Income Tax Notice of Assessment",
+                  "helperurl": "https://www.iras.gov.sg/taxes/individual-income-tax/basics-of-individual-income-tax/receive-tax-bill-pay-tax-check-refunds/getting-my-tax-assessment"
+                }
+              ]
+            },
+            {
+              "type": "file",
+              "label": "CPF Transaction Statement or Contribution History for past 12 months",
+              "id": "CPF",
+              "required": true,
+              "helpers": [
+                {
+                  "helpertext": "Find out how to obtain your CPF Contribution History",
+                  "helperurl": "https://www.cpf.gov.sg/member/faq/general-information---useful-tips/statement-of-account-and-records/check-my-cpf-account-balances-contribution-and-transaction"
+                }
+              ]
+            },
+            {
+              "type": "file",
+              "label": "Latest payslip OR letter from employer certifying gross income",
+              "id": "Payslip",
+              "required": true,
+              "helpers": [
+                {
+                  "helpertext": "Download payslip template",
+                  "helperurl": "https://www.mom.gov.sg/~/media/mom/documents/employment-practices/payslip/full-payslip-booklet-english.pdf?la=en"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "Section VI: Students / National Servicemen",
+      "questions": [
+        {
+          "type": "conditional-boolean",
+          "label": "Are there any full-time students at tertiary institutions in your household?",
+          "id": "Student",
+          "required": true,
+          "subquestions": [
+            {
+              "type": "file",
+              "label": "Copies of student/ matriculation card for ALL full-time student",
+              "id": "Card",
+              "required": true,
+              "helpers": [
+                {
+                  "helpertext": "Scan and attach matriculation card for every single full time student"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "conditional-boolean",
+          "label": "Are there any full-time National Servicemen in your household?",
+          "id": "NS",
+          "required": true,
+          "subquestions": [
+            {
+              "type": "file",
+              "label": "Copies of identification card for ALL National Servicemen",
+              "id": "Card",
+              "required": true,
+              "helpers": [
+                {
+                  "helpertext": "Scan and attach identification card for every national servicemen"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "Section VII: Others",
+      "questions": [
+        {
+          "type": "file",
+          "label": " Proof of other sources of income",
+          "id": "Other"
+        },
+        {
+          "type": "file",
+          "label": "Miscellaneous Documents",
+          "id": "Misc",
+          "helpers": [
+            {
+              "helpertext": "e.g. Letter of Guardianship for non-parents"
+            }
+          ]
+        } 
+      ]
+    }
+  ]
+}

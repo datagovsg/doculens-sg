@@ -62,7 +62,7 @@ export const colours: { [k in ThemeColorScheme]: Record<string, string> } = {
     200: '#DADCE3',
     300: '#A2A8B9',
     400: '#69738E',
-    500: '#445072',
+    500: '#505798',
     600: '#36405B',
     700: '#293044',
     800: '#1B202E',

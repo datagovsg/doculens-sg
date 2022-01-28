@@ -10,6 +10,7 @@ export const theme = extendTheme({
   styles: {
     global: {
       body: {
+        bg: 'neutral.200',
         fontFeatureSettings: "'tnum' on, 'cv05' on",
       },
       /**

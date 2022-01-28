@@ -1,4 +1,6 @@
-import React, { ReactText, useState } from 'react'
+import React, { ReactText, useEffect, useState } from 'react'
+import { AiOutlineFile } from 'react-icons/ai'
+import { useNavigate, useParams } from 'react-router-dom'
 import {
   Accordion,
   AccordionButton,
@@ -7,52 +9,73 @@ import {
   AccordionPanel,
   Box,
   BoxProps,
-  Button,
   CloseButton,
+  Divider,
   Drawer,
   DrawerContent,
   Flex,
   FlexProps,
+  HStack,
+  Spinner,
   StackDivider,
   Text,
   useColorModeValue,
   useDisclosure,
   VStack,
 } from '@chakra-ui/react'
+import axios from 'axios'
 
-import AdminHeader from '~pages/viewer/AdminHeader'
+import useFetchSingular from '~hooks/useFetchSingular'
+import { retrieveApplicationById } from '~services/DoculensApi'
+import { ApplicationMetadata, Attachment } from '~services/types'
+import ConditionalWrapper from '~components/ConditionalWrapper'
+
 import AdminPDFconsole from '~pages/viewer/AdminPDFconsole'
-
-interface attachmentProps {
-  name: string
-  attachmentID: string
-}
-const AttachmentProps: Array<attachmentProps> = [
-  {
-    name: 'Attachment Form',
-    attachmentID: '286a163021bade5eb765fc119d28c3de',
-  },
-  {
-    name: 'Unemployed',
-    attachmentID: 'sample2.pdf',
-  },
-  {
-    name: 'Profit and Loss',
-    attachmentID: '286a163021bade5eb765fc119d28c3de',
-  },
-  {
-    name: 'CPF Statement of ...',
-    attachmentID: '286a163021bade5eb765fc119d28c3de',
-  },
-]
+import { SubmissionMetadataView } from '~pages/viewer/components/SubmissionMetadataView'
+import ViewerHeader from '~pages/viewer/components/ViewerHeader'
 
 export default function SimpleSidebar() {
+  // Retrieve application on render
+
+  const params = useParams<{ id: string }>()
+  const navigate = useNavigate()
+
+  if (!params.id) {
+    navigate('/dashboard')
+  }
+
+  const [application, isLoading] = useFetchSingular<ApplicationMetadata>({
+    serviceFunction: retrieveApplicationById(params.id as string),
+  })
+
   const { isOpen, onClose } = useDisclosure()
-  const [selectedAttachment, setSelectedAttachment] = useState('')
+
+  const [attachedFile, setFile] = useState<string | null>()
+  const [id, setId] = useState('')
+
+  const setAttachedfile = (id) => {
+    if (!id) {
+      console.log('not id detected')
+      return setFile(null)
+    }
+
+    axios
+      .get(`/api/attachment/${id}`, { responseType: 'arraybuffer' })
+      .then((r) => {
+        setId(id)
+        setFile(r.data)
+      })
+  }
+
   return (
-    <AdminHeader>
+    <ConditionalWrapper
+      condition={isLoading || !application}
+      wrapper={() => <Spinner />}
+    >
+      <ViewerHeader application={application as ApplicationMetadata} />
       <SidebarContent
-        setSelectedAttachment={setSelectedAttachment}
+        attachments={application?.attachments as Attachment[]}
+        setAttachedfile={setAttachedfile}
         onClose={() => onClose}
         display={{ base: 'none', md: 'block' }}
       />
@@ -67,26 +90,40 @@ export default function SimpleSidebar() {
       >
         <DrawerContent>
           <SidebarContent
-            setSelectedAttachment={setSelectedAttachment}
+            attachments={application?.attachments as Attachment[]}
+            setAttachedfile={setAttachedfile}
             onClose={onClose}
           />
         </DrawerContent>
       </Drawer>
 
-      <Box ml={{ base: 0, md: 60 }} p="4">
-        <AdminPDFconsole pdfIdentifier={selectedAttachment} />
+      <Box ml={{ base: 0, md: 60 }} marginTop={'72px'}>
+        {attachedFile ? (
+          <>
+            <Flex align={'center'} justify={'center'} backgroundColor="#EEE">
+              <Text textStyle="viewer1">{id}</Text>
+            </Flex>
+            <AdminPDFconsole attachedFile={attachedFile} />
+          </>
+        ) : (
+          <SubmissionMetadataView
+            application={application as ApplicationMetadata}
+          />
+        )}
       </Box>
-    </AdminHeader>
+    </ConditionalWrapper>
   )
 }
 
 interface SidebarProps extends BoxProps {
   onClose: () => void
-  setSelectedAttachment: (attachment: string) => void
+  setAttachedfile: (attachment: string) => void
+  attachments: Attachment[]
 }
 
 const SidebarContent = ({
-  setSelectedAttachment,
+  attachments,
+  setAttachedfile,
   onClose,
   ...rest
 }: SidebarProps) => {
@@ -98,24 +135,30 @@ const SidebarContent = ({
       w={{ base: 'full', md: 60 }}
       pos="fixed"
       h="full"
+      pt={'73px'}
       {...rest}
     >
-      <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
-        <Box pb="15" pt="5">
-          <Text fontSize="1.2rem">Submission Details</Text>
+      <Flex
+        py="12px"
+        alignItems="center"
+        justifyContent="space-between"
+        onClick={() => setAttachedfile('')}
+      >
+        <Box>
+          <Text textStyle="body1">Submission Details</Text>
           <CloseButton
             display={{ base: 'flex', md: 'none' }}
             onClick={onClose}
           />
         </Box>
       </Flex>
-      {AttachmentProps.map((link) => (
+      {attachments.map((attachmentGroup) => (
         <NavItem
-          key={link.attachmentID}
-          attachmentID={link.attachmentID}
-          setSelectedAttachment={setSelectedAttachment}
+          key={attachmentGroup.category}
+          attachmentIDs={attachmentGroup.files}
+          setAttachedfile={setAttachedfile}
         >
-          {link.name}
+          {attachmentGroup.category}
         </NavItem>
       ))}
     </Box>
@@ -123,19 +166,19 @@ const SidebarContent = ({
 }
 
 interface NavItemProps extends FlexProps {
-  attachmentID: string
-  setSelectedAttachment: (attachment: string) => void
+  attachmentIDs: string[]
+  setAttachedfile: (attachment: string) => void
   children: ReactText
 }
 const NavItem = ({
-  attachmentID,
+  attachmentIDs,
   children,
-  setSelectedAttachment,
+  setAttachedfile,
 }: NavItemProps) => {
   return (
     <Accordion allowToggle>
       <VStack
-        divider={<StackDivider borderColor="gray.200" />}
+        divider={<StackDivider borderColor="neutral.300" />}
         spacing={4}
         align="stretch"
       >
@@ -149,22 +192,30 @@ const NavItem = ({
             </AccordionButton>
           </h2>
 
-          <AccordionPanel pb={4}>
-            <Button
-              variant="link"
-              onClick={() => setSelectedAttachment(attachmentID)}
-            >
-              <Flex
-                align="right"
-                p="1"
-                mx="4"
-                borderRadius="lg"
-                role="group"
-                cursor="pointer"
-              >
-                Item 1
-              </Flex>
-            </Button>
+          <AccordionPanel px={2} pb={0}>
+            {attachmentIDs.map((attachmentID) => (
+              <>
+                <HStack
+                  flex={1}
+                  _hover={{ backgroundColor: 'primary.200' }}
+                  h={'54px'}
+                  onClick={() => setAttachedfile(attachmentID)}
+                  cursor="pointer"
+                  textOverflow={'ellipsis'}
+                  whiteSpace={'nowrap'}
+                  overflow="hidden"
+                >
+                  <Box>
+                    <AiOutlineFile />
+                  </Box>
+
+                  <Text textOverflow={'ellipsis'} overflow="hidden">
+                    {attachmentID}
+                  </Text>
+                </HStack>
+                <Divider />
+              </>
+            ))}
           </AccordionPanel>
         </AccordionItem>
       </VStack>
