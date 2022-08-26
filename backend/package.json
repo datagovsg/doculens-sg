@@ -37,7 +37,7 @@
     "class-transformer": "^0.5.1",
     "convict": "^6.2.1",
     "express-session": "^1.17.2",
-    "helmet": "^4.6.0",
+    "helmet": "^6.0.0",
     "jspdf": "^2.5.0",
     "mongoose": "^6.1.7",
     "nodemailer": "^6.7.0",
